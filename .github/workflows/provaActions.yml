@@ -8,7 +8,6 @@ jobs:
      branches:
         - main
   steps:
-	- run: 
 	- name: Checkout
           uses: actions/checkout@v3
 	  with: 
