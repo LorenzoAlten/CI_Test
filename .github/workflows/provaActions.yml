@@ -1,21 +1,22 @@
-name: Test Actions
-run-name: ${{ github.actor }} is testing
+name: CI
+
 on: [push]
-jobs:
-  Test-Lorenzo-codice-Yaml:
-  runs-on: ubuntu-latest
   push:
-     branches:
-        - main
-  steps:
-	- name: Checkout
-          uses: actions/checkout@v3
-	  with: 
-	    fetch-depth: 0
-	- run: |
-	  for commit in $(git rev-list ${{ github.event.before}}..${{ github.sha}}); do
-          git checkout $commit
-          echo "run test"
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: |
+          for commit in $(git rev-list ${{ github.base_ref }}..${{ github.head_ref }}); do
+              git checkout $commit
+              echo "run test"
           done
 			
 
