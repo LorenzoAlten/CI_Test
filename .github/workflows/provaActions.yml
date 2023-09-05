@@ -2,7 +2,7 @@ name: Test Actions
 run-name: ${{ github.actor }} is testing
 on: [push]
 jobs:
-  Test Lorenzo codice Yaml:
+  Test-Lorenzo-codice-Yaml:
   runs-on: ubuntu-latest
   push:
      branches:
