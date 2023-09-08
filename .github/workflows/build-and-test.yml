@@ -18,7 +18,6 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [windows-latest]
-        dotnet-version: [7.0.202]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
