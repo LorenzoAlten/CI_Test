@@ -1,35 +1,38 @@
-name: Validate dotnet
+name: build and test
 
 on:
-  pull_request:
-    paths-ignore:
-      - '**.md'
   push:
-    branches:
-      - main
-      - releases/*
-    paths-ignore:
-      - '**.md'
+  pull_request:
+    branches: [ main ]
+    paths:
+    - '**.cs'
+    - '**.csproj'
+
+env:
+  DOTNET_VERSION: '7.0.202' # The .NET SDK version to use
 
 jobs:
-  setup-version:
-    runs-on: ${{ matrix.operating-system }}
+  build-and-test:
+
+    name: build-and-test-${{matrix.os}}
+    runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
       matrix:
-        operating-system: [windows-latest]
+        os: [windows-latest]
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Clear toolcache
-        shell: pwsh
-        run: __tests__/clear-toolcache.ps1 ${{ runner.os }}
-      - name: Setup dotnet ${{ matrix.dotnet-version }}
-        uses: ./
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-      - name: Verify installed version
-        shell: pwsh
-        run: |
-          __tests__/verify-dotnet.ps1 -Patterns "^${{ matrix.dotnet-version }}"
+    - uses: actions/checkout@v3
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+
+    - name: Install dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
 
