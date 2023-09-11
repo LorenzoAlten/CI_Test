@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestCICD.Properties
+namespace ProvaContinuous.Properties
 {
 
 
