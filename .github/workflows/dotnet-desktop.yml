@@ -56,8 +56,8 @@ jobs:
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
 
     env:
-      Solution_Name: ProvaContinuous.sln                       
-      Test_Project_Path: C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous               
+      Solution_Name: Agilog.sln                       
+      Test_Project_Path: C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\Test\TestProject1\ViewModels\               
       Wap_Project_Directory: your-wap-project-directory-name    
       Wap_Project_Path: your-wap-project-path                  
 
