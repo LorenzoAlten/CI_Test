@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="AgvMgr.Views.CfgManagerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:local="clr-namespace:AgvMgr.Views"
+             xmlns:localvm="clr-namespace:AgvMgr.ViewModels"
+        xmlns:WPFUtils="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:cal="http://www.caliburnproject.org"
+        xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+        xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+        mc:Ignorable="d"        
+             d:DesignHeight="1000" d:DesignWidth="1000" 
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{StaticResource MaterialDesignFont}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Width" Value="24" />
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Padding="0" Margin="0" VerticalScrollBarVisibility="Auto" Grid.Row="0">
+            <DockPanel>
+                <Button Name="AddSew" Style="{StaticResource MaterialDesignFlatDarkBgButton}" DockPanel.Dock="Top"
+                        HorizontalAlignment="Right" Margin="12 4"
+                        ToolTip="{resx:Translate 'Add Agv'}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{resx:Translate 'Add Agv', Uppercase=True}"
+                                   VerticalAlignment="Center"/>
+                        <materialDesign:PackIcon Kind="Plus" />
+                    </StackPanel>
+                </Button>
+                <ItemsControl ItemsSource="{Binding AgvsModel}"                      
+                      VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate >
+                        <ContentControl cal:View.Model="{Binding}"
+                                        Margin="12 4"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            </DockPanel>
+        </ScrollViewer>
+
+        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" Width="50" Height="50" Background="White" Opacity="0.7"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </Grid>
+
+</UserControl>

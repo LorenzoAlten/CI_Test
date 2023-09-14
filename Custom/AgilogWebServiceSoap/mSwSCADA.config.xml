@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sections>
+  <Configuration>
+    <DVC_Id value="1"/>
+    <DefaultUserCode value="errevi"/>
+    <DefaultUserPassword value="8447281d2510ade027fb5521dd04c4f0"/>
+    <CommsTestDebugMode value="True"/>
+  </Configuration>
+  <LocalDb>
+    <DataSource value="RV-FILAZZOLA\SQLSERVERDEV2019"/>
+    <InitialCatalog value="AGILOG_SODICO_Local"/>
+    <IntegratedSecurity value="False"/>
+    <PersistSecurityInfo value="True"/>
+    <UserID value="sa"/>
+    <Password value="Errevi1992"/>
+  </LocalDb>
+  <GlobalDb>
+    <DataSource value="RV-FILAZZOLA\SQLSERVERDEV2019"/>
+    <InitialCatalog value="AGILOG_SODICO"/>
+    <IntegratedSecurity value="False"/>
+    <PersistSecurityInfo value="True"/>
+    <UserID value="sa"/>
+    <Password value="Errevi1992"/>
+  </GlobalDb>
+  <RemoteUpdate>
+    <UpdateDirectory value="\\127.0.0.1\Shared\AgilogRemoteUpdate"/>
+    <UpdateFile value="RemoteUpdate.xml"/>
+    <UpdateDomain value="127.0.0.1"/>
+    <UpdateUsername value=""/>
+    <UpdatePassword value=""/>
+  </RemoteUpdate>
+  <Reports>
+	<ReportUsername value=""/>
+    <ReportPassword value=""/>
+  </Reports>
+  <Log>
+    <Level value="3"/>
+    <FilePath value=""/> <!-- Se vuoto salva su Database -->
+  </Log>
+  <HistoryDbCleaning>
+    <DeleteAfter_AlarmDays value="370"/>
+    <DeleteAfter_LogDays value="5"/>
+    <DeleteAfter_ReportDays value="1110"/>
+  </HistoryDbCleaning>
+  <TAGsLegend>
+    <Item>
+      <Key value="NU"/>
+      <Value value="Not Used"/>
+    </Item>
+  </TAGsLegend>
+  <Graphics>
+    <!-- Settings -->
+    <MultimediaPath value="Multimedia"/>
+    <ImagesPublicPath value="Images\Public"/>
+    <ViewsBorderThickness value="0"/>
+    <BackgroundStartColor value="240,240,240"/>
+    <BackgroundEndColor value="240,240,240"/>
+    <!--<BackgroundStartColor value="0,130,180"/>
+    <BackgroundEndColor value="255,255,255"/>-->
+    <DefaultAreaSizeX value="1916"/>
+    <DefaultAreaSizeY value="1017"/>
+    <DefaultConveyorHorizontal value="False"/>
+    <AppBackgroundStartColor value="119,136,153"/>     	<!-- Light Slate Grey -->
+    <AppBackgroundEndColor value="255,255,255"/>	<!-- White -->
+    <SynopticAllowMultiDeviceSelection value="True"/>
+    <SynopticReverseContextMenuBehaviour value="False"/>
+    <SynopticOnSelectionShowToolbar value="True"/>
+    <SynopticOnContextMenuShowToolbar value="False"/>
+    <SynopticHideToolbarDelay value="100"/>
+  </Graphics>
+  <Grpc>
+    <SharedUtilsServiceAddress value="127.0.0.1:60000"/>
+    <CommsServiceAddress value="127.0.0.1:60001"/>
+	<CommsSubscriptionServiceAddress value="127.0.0.1:61001"/>
+    <DataServiceAddress value="127.0.0.1:60002"/>    
+    <MFCServiceAddress value="127.0.0.1:60003"/>
+    <MFCSubscriptionServiceAddress value="127.0.0.1:61003"/>
+    <AstarServiceAddress value="127.0.0.1:60004"/>
+    <AstarSubscriptionServiceAddress value="127.0.0.1:61004"/>
+  </Grpc>
+  <Settings>
+     <VirtualKeyBoard value="False"/>
+     <VirtualKeyBoardWidth value="1024"/>
+     <VirtualKeyBoardHeight value="360"/>
+	 <ManualPrinterIP value="11.11.2.2"/>
+     <ManualLayoutPath value ="C:\Errevi\DHL\Agilog\Labels"/>
+     <ManualLayoutFileName value ="LayoutTemplate"/>
+	 <AgvLayoutPath value="AgvPath"/>
+	 <AgvCameraCoordinate value="-48989,-60718,134897"/>
+	 <AgvCameraDirection value="450781,-4917,-684293"/>
+	 <AgvCameraUpDirection value="0.1,0,1.0"/>
+  </Settings>
+</Sections>

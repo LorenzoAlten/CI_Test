@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="OrdersMgr.Views.BookedUDCsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OrdersMgr.Views"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel>
+
+        <materialDesign:ColorZone DockPanel.Dock="Top" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid"
+                                  Panel.ZIndex="1">
+            <TextBlock Name="DisplayName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" />
+        </materialDesign:ColorZone>
+
+        <DataGrid Name="UDCs" VerticalAlignment="Stretch" SelectionUnit="FullRow" SelectionMode="Single"
+                  SelectedItem="{Binding SelectedItem}" VerticalScrollBarVisibility="Auto"
+                  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                  materialDesign:DataGridAssist.CellPadding="12 8 8 8" 
+                  materialDesign:DataGridAssist.ColumnHeaderPadding="4">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{resx:Translate 'Line', Uppercase=True}" 
+                                    Binding="{Binding EXE_ODT_Line}"
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="{resx:Translate 'Code', Uppercase=True}" 
+                                    Binding="{Binding UDC_Code}"
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="{resx:Translate 'Type', Uppercase=True}"
+                                    IsReadOnly="True">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0} - {1}">
+                            <Binding Path="UDC_UDT_Code" />
+                            <Binding Path="UDT_Desc" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridCheckBoxColumn Header="{resx:Translate 'Wrapped', Uppercase=True}" 
+                                        Binding="{Binding UDC_Wrapped}"
+                                        IsReadOnly="True"/>
+                <DataGridTextColumn Header="{resx:Translate 'Item', Uppercase=True}"
+                                    IsReadOnly="True">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding StringFormat="{}{0} - {1}">
+                            <Binding Path="ITM_Code" />
+                            <Binding Path="ITM_Desc" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{resx:Translate 'Stock', Uppercase=True}"
+                                    Binding="{Binding UCM_Stock, StringFormat='F0', ConverterCulture=IT}"
+                                    IsReadOnly="True"/>
+                <DataGridTextColumn Header="{resx:Translate 'Compartment', Uppercase=True}" 
+                                    Binding="{Binding UCM_Index}"
+                                    IsReadOnly="True" MinWidth="50"/>
+                <DataGridTextColumn Header="{resx:Translate X, Uppercase=True}" 
+                                    Binding="{Binding CEL_X}"
+                                    IsReadOnly="True" MinWidth="50"/>
+                <DataGridTextColumn Header="{resx:Translate Y, Uppercase=True}"
+                                    Binding="{Binding CEL_Y}"
+                                    IsReadOnly="True" MinWidth="50"/>
+                <DataGridTextColumn Header="{resx:Translate Z, Uppercase=True}" 
+                                    Binding="{Binding LOC_Z}"
+                                    IsReadOnly="True" MinWidth="50"/>
+                <DataGridTextColumn Header="{resx:Translate W, Uppercase=True}" 
+                                    Binding="{Binding LOC_W}"
+                                    IsReadOnly="True" MinWidth="50"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</UserControl>

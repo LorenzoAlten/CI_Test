@@ -1,0 +1,6 @@
+#Run PowerShell as Administrator and execute following commands:
+
+sc.exe create "AstarMgr_WS" binpath="C:\Errevi\Custom-7.0\App\Bin\AstarMgr_WS\net7.0-windows\AstarMgr_WS.exe"
+#sc.exe config "AstarMgr_WS" depend= "MSSQLSERVER"
+sc.exe config "AstarMgr_WS" start= delayed-auto
+sc.exe config "AstarMgr_WS" obj= ".\ModularSw" password= "piropiro"

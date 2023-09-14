@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MovitransMgr": {
+      "commandName": "Project",
+      "commandLineArgs": "1 MOV"
+    }
+  }
+}

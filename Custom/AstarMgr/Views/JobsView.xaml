@@ -1,0 +1,324 @@
+﻿<UserControl x:Class="AstarMgr.Views.JobsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AstarMgr"
+             xmlns:converters="clr-namespace:AstarMgr.Converters"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:wpfconverters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <resx:DecimalConverter x:Key="DecimalConverter" Decimals="3"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <wpfconverters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+            <converters:FrequencyConverter x:Key="FrequencyConverter"/>
+            <converters:TimeoutConverter x:Key="TimeoutConverter"/>
+            <converters:JobStateConverter x:Key="JobStateConverter"/>
+            <converters:LogLevelConverter x:Key="LogLevelConverter"/>
+            <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+                <Setter Property="Margin" Value="12 6 12 4" />
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+            </Style>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Padding" Value="3"/>
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Height" Value="Auto"/>
+                <Setter Property="Width" Value="50"/>
+            </Style>
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Height" Value="24" />
+                <Setter Property="Width" Value="24" />
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <DockPanel>
+            <!-- Barra del titolo -->
+            <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" DockPanel.Dock="Top">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Name="DisplayName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Grid.Column="1"/>
+                    <Button x:Name="StartExotecTest" DockPanel.Dock="Top" HorizontalAlignment="Right" Grid.Column="2"
+                     Content="{resx:Translate 'Test', Uppercase=True}" MinWidth="100" HorizontalContentAlignment="Center" 
+                            Style="{StaticResource MaterialDesignRaisedLightButton}"></Button>
+                </Grid>
+            </materialDesign:ColorZone>
+
+            <DockPanel VerticalAlignment="Stretch">
+                <!-- Group Box dei job -->
+                <GroupBox DockPanel.Dock="Top" Height="300"
+                          Header="{resx:Translate Jobs, Uppercase=True}"                              
+                          materialDesign:ColorZoneAssist.Mode="Accent">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" FontWeight="Bold"
+                                           Text="{Binding}" />
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <!-- Griglia con 2 righe 
+                            Elenco Job
+                            Barra pulsanti
+                    -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <!-- Barra coi pulsanti -->
+                        <materialDesign:ColorZone Mode="PrimaryLight" Grid.Row="1">
+                            <materialDesign:ColorZone.Resources>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Focusable" Value="False" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </materialDesign:ColorZone.Resources>
+                            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                                <!-- Parte sinistra barra pulsanti -->
+                                <UniformGrid Rows="1" Columns="4" DockPanel.Dock="Left">
+                                    <Button Name="Start" 
+                                            ToolTip="{resx:Translate Start}">
+                                        <materialDesign:PackIcon Kind="Play" />
+                                    </Button>
+                                    <Button Name="Stop" 
+                                            ToolTip="{resx:Translate Stop}">
+                                        <materialDesign:PackIcon Kind="Stop" />
+                                    </Button>
+                                    <Button Name="Execute" 
+                                            ToolTip="{resx:Translate Execute}">
+                                        <materialDesign:PackIcon Kind="Flash" />
+                                    </Button>
+                                </UniformGrid>
+                                <!-- Parte destra barra pulsanti -->
+                                <UniformGrid Rows="1" Columns="3" DockPanel.Dock="Right">
+                                    <Button Name="Enable"
+                                            ToolTip="{resx:Translate 'Enable'}">
+                                        <materialDesign:PackIcon Kind="CheckboxMarkedOutline" />
+                                    </Button>
+                                    <Button Name="Disable"
+                                            ToolTip="{resx:Translate 'Disable'}">
+                                        <materialDesign:PackIcon Kind="CheckboxBlankOutline" />
+                                    </Button>
+                                    <Button Name="RefreshAll"
+                                            ToolTip="{resx:Translate 'Refresh'}">
+                                        <materialDesign:PackIcon Kind="Refresh" />
+                                    </Button>
+                                </UniformGrid>
+                            </DockPanel>
+                        </materialDesign:ColorZone>
+                        <!-- Griglia coi job -->
+                        <DataGrid Name="JobsList" VerticalAlignment="Stretch" SelectionUnit="FullRow" SelectionMode="Single"
+                                  SelectedItem="{Binding SelectedJob, Mode=TwoWay}"
+                                  Grid.Row="0" VerticalScrollBarVisibility="Auto"
+                                  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                                  materialDesign:DataGridAssist.CellPadding="12 8 8 8" 
+                                  materialDesign:DataGridAssist.ColumnHeaderPadding="4">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{resx:Translate 'Task', Uppercase=True}"
+                                                    Binding="{Binding ASJ_Code}"
+                                                    IsReadOnly="True" Width="*" MinWidth="300"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Type', Uppercase=True}" 
+                                                    Binding="{Binding ASJ_Desc}"
+                                                    IsReadOnly="True" Width="*" MinWidth="100"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Frequency', Uppercase=True}" 
+                                                    Binding="{Binding ASJ_Freq, Converter={StaticResource FrequencyConverter}}"
+                                                    IsReadOnly="True" Width="*" MinWidth="100"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Timeout', Uppercase=True}" 
+                                                    Binding="{Binding ASJ_Timeout, Converter={StaticResource TimeoutConverter}}"
+                                                    IsReadOnly="True" Width="*" MinWidth="100"/>
+                                <DataGridTextColumn Header="{resx:Translate 'State', Uppercase=True}" 
+                                                    Binding="{Binding State, Converter={StaticResource JobStateConverter}}"
+                                                    IsReadOnly="True" Width="Auto" MinWidth="100"/>
+                                <DataGridTemplateColumn Header="{resx:Translate 'Enabled', Uppercase=True}" 
+                                                        IsReadOnly="True" Width="Auto" MinWidth="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding ASJ_Enabled, Mode=OneWay}" IsHitTestVisible="False" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{resx:Translate 'Last execution', Uppercase=True}" 
+                                                    Binding="{resx:CultureAwareBinding Path=LastRunEndedAt}"
+                                                    IsReadOnly="True" Width="*" MinWidth="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </GroupBox>
+                <!-- Group Box dei Log-->
+                <Expander DockPanel.Dock="Bottom" HorizontalAlignment="Stretch"
+                          ExpandDirection="Up" IsExpanded="{Binding LogIsExpanded}" materialDesign:ExpanderAssist.HorizontalHeaderPadding="5 0"                          
+                          Margin="10 0">
+                    <Expander.Header>
+                        <TextBlock Text="{resx:Translate 'Logs (click to expand)'}" Padding="16 8" HorizontalAlignment="Center" FontWeight="Bold" />
+                        <!--
+                                   Background="{StaticResource SecondaryHueMidBrush}" Foreground="{StaticResource SecondaryHueMidForegroundBrush}"/>
+                            -->
+                    </Expander.Header>
+                    <GroupBox Header="{resx:Translate Logs, Uppercase=True}" Height="300"
+                              materialDesign:ColorZoneAssist.Mode="Accent">
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" FontWeight="Bold"
+                                           Text="{Binding}" />
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <!-- Griglia coi messaggi di log -->
+                        <DataGrid Name="JobLogs" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto"
+                                  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                                  materialDesign:DataGridAssist.CellPadding="12 8 8 8" Grid.Row="1" 
+                                  materialDesign:DataGridAssist.ColumnHeaderPadding="4">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{resx:Translate 'Date/Time', Uppercase=True}" 
+                                                    Binding="{resx:CultureAwareBinding Path=DateTime}"
+                                                    IsReadOnly="True" Width="Auto" MinWidth="100"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Message', Uppercase=True}"
+                                                    Binding="{Binding Message}"
+                                                    IsReadOnly="True" Width="*" MinWidth="300"/>
+                                <DataGridTextColumn Header="{resx:Translate 'User', Uppercase=True}" 
+                                                    Binding="{Binding User}"
+                                                    IsReadOnly="True" Width="Auto" MinWidth="100"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Level', Uppercase=True}" 
+                                                    Binding="{Binding Level, Converter={StaticResource LogLevelConverter}}"
+                                                    IsReadOnly="True" Width="Auto" MinWidth="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </Expander>
+                <GroupBox Header="{resx:Translate Messages, Uppercase=True}"
+                          materialDesign:ColorZoneAssist.Mode="Accent"  HorizontalAlignment="Stretch">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" FontWeight="Bold"
+                                       Text="{Binding}" />
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <DockPanel>
+                        <materialDesign:ColorZone Mode="PrimaryLight" DockPanel.Dock="Bottom">
+                            <materialDesign:ColorZone.Resources>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Focusable" Value="False" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </materialDesign:ColorZone.Resources>
+                            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                                <UniformGrid Rows="1" Columns="3" DockPanel.Dock="Right">
+                                    <Button DockPanel.Dock="Right" Name="HideHealth"
+                                            Content="{Binding HealthIcon}"
+                                            ToolTip="{resx:Translate 'Hide health messages'}"/>
+
+                                    <Button DockPanel.Dock="Right" Name="HideSent"
+                                            Content="{Binding SentIcon}"
+                                            ToolTip="{resx:Translate 'Hide sent messages'}"/>
+                                    
+                                    <Button Name="RefreshMessages"
+                                            ToolTip="{resx:Translate 'Refresh'}">
+                                        <materialDesign:PackIcon Kind="Refresh" />
+                                    </Button>
+                                </UniformGrid>
+                            </DockPanel>
+                        </materialDesign:ColorZone>
+                        <!-- Griglia coi JSON -->
+                        <DataGrid Name="MessageList" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto"
+                                  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                                  materialDesign:DataGridAssist.ColumnHeaderPadding="4" SelectionMode="Single"
+                                  SelectedItem="{Binding SelectedMessage}">
+                            <DataGrid.Resources>
+                                <ContextMenu x:Key="RowMenu" DataContext="{Binding PlacementTarget.DataContext, RelativeSource={RelativeSource Self}}">
+                                    <MenuItem Header="{resx:Translate Copy message}" Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.RowCopyCommand}"
+                                              Visibility="Visible">
+                                        <MenuItem.Icon>
+                                            <materialDesign:PackIcon Kind="ClipboardTextMultipleOutline" />
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </DataGrid.Resources>
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                                    <Setter Property="ContextMenu" Value="{StaticResource RowMenu}" />
+                                </Style>
+                            </DataGrid.RowStyle>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="{resx:Translate 'Date/Time', Uppercase=True}" 
+                                                        IsReadOnly="True" Width="Auto" MinWidth="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ASM_Timestamp, StringFormat=dd/MM/yy HH:mm:ss}" VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="{resx:Translate 'Message', Uppercase=True}" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Expander materialDesign:ExpanderAssist.HorizontalHeaderPadding="5 0">
+                                                <Expander.Header>
+                                                    <TextBlock Text="{Binding MessagePreview}" FontSize="13" VerticalAlignment="Center"/>
+                                                </Expander.Header>
+                                                <TextBlock Text="{Binding ASM_Message}" />
+                                            </Expander>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="{resx:Translate 'Class', Uppercase=True}" 
+                                                        IsReadOnly="True" Width="Auto" MinWidth="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ASM_Class}" VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="{resx:Translate 'Time Processed', Uppercase=True}" 
+                                                        IsReadOnly="True" Width="Auto" MinWidth="100">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ASM_ProcessedTime, StringFormat=dd/MM/yy HH:mm:ss}" VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Header="{resx:Translate 'Direction', Uppercase=True}"
+                                                        IsReadOnly="True" Width="Auto" MinWidth="50">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <materialDesign:PackIcon Kind="ArrowRight"
+                                                                         Margin="0" HorizontalAlignment="Center"
+                                                                         Visibility="{Binding ASM_Sent, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                                         Foreground="{StaticResource PrimaryHueMidBrush}"/>
+                                                <materialDesign:PackIcon Kind="ArrowLeft"
+                                                                         Margin="0" HorizontalAlignment="Center"
+                                                                         Visibility="{Binding ASM_Sent, Converter={StaticResource InverseBoolToVisConverter}}"/>
+                                                <!-- Foreground="{StaticResource SecondaryHueMidBrush}"-->
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </GroupBox>
+            </DockPanel>
+        </DockPanel>
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
+                                 resx:SnackBarCustomProperties.SnackBarNotification="{Binding SnackBarMessage}"/>
+    </Grid>
+
+</UserControl>

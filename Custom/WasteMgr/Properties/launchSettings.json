@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WasteMgr": {
+      "commandName": "Project",
+      "commandLineArgs": "1 100 8"
+    }
+  }
+}

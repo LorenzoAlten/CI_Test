@@ -1,0 +1,153 @@
+﻿<UserControl x:Class="MissionViewer.Views.MissionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MissionViewer.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:custom="clr-namespace:AgilogDll;assembly=AgilogDll"     
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:cal="http://www.caliburnproject.org"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="Roboto"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <agilog:MissionTypeConverter x:Key="MissionTypeConverter"/>
+            <agilog:MissionResultConverter x:Key="MissionResultConverter"/>
+            <agilog:MissionCausalConverter x:Key="MissionCausalConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <custom:DpiDecorator>
+        <Grid>
+            <StackPanel>
+                <Separator/>
+                <Expander HorizontalAlignment="Stretch"
+              cal:Message.Attach="[Event Expanded] = [Action LoadBackupLinesAsync()]">
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding MIS_Id}"
+                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                           Width="80" VerticalAlignment="Center"/>
+
+                            <StackPanel Margin="20 0 0 0"
+                                    Width="150">
+                                <TextBlock Text="{resx:Translate 'Load unit', Uppercase=True}"
+                                       Style="{StaticResource MaterialDesignOverlineTextBlock}"
+                                       Margin="0 0 0 4"/>
+                                <TextBlock Text="{Binding MIS_UDC_Code}"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                            </StackPanel>
+                            <StackPanel Margin="20 0 0 0" 
+                                    Width="200">
+                                <TextBlock Text="{resx:Translate 'Type', Uppercase=True}"
+                                       Style="{StaticResource MaterialDesignOverlineTextBlock}"
+                                       Margin="0 0 0 4" />
+                                <TextBlock Text="{Binding MIS_MIT_Code, Converter={StaticResource MissionTypeConverter}}"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                            </StackPanel>
+
+                            <StackPanel Margin="20 0 0 0"
+                                    Width="200">
+                                <TextBlock Text="{resx:Translate 'Order', Uppercase=True}"
+                                       Style="{StaticResource MaterialDesignOverlineTextBlock}"
+                                       Margin="0 0 0 4" />
+                                <TextBlock Text="{Binding MIS_ODT_ORD_OrderCode}"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                            </StackPanel>
+
+                            <StackPanel Margin="20 0 0 0"
+                                    Width="70">
+                                <TextBlock Text="{resx:Translate 'Line', Uppercase=True}"
+                                       Style="{StaticResource MaterialDesignOverlineTextBlock}"
+                                       Margin="0 0 0 4" />
+                                <TextBlock Text="{Binding MIS_ODT_Line}"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                            </StackPanel>
+
+                            <StackPanel Margin="20 0 0 0">
+                                <TextBlock Text="{resx:Translate 'Start', Uppercase=True}"
+                                       Style="{StaticResource MaterialDesignOverlineTextBlock}"
+                                       Margin="0 0 0 4" />
+                                <TextBlock Text="{Binding Start, StringFormat='{}{0:d} {0:T}', ConverterCulture=IT}"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                            </StackPanel>
+
+                            <StackPanel Margin="20 0 0 0">
+                                <TextBlock Text="{resx:Translate 'Last change', Uppercase=True}"
+                                       Style="{StaticResource MaterialDesignOverlineTextBlock}"
+                                       Margin="0 0 0 4" />
+                                <TextBlock Text="{Binding LastChange, StringFormat='{}{0:d} {0:T}', ConverterCulture=IT}"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                            </StackPanel>
+
+                            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                     Value="0"  Margin="20 0 0 0"
+                                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                                     IsIndeterminate="True"
+                                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </StackPanel>
+                    </Expander.Header>
+
+                    <DataGrid Name="BackupLines" VerticalAlignment="Stretch" SelectionUnit="FullRow" SelectionMode="Single"
+                          VerticalScrollBarVisibility="Auto"
+                          AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                          materialDesign:DataGridAssist.CellPadding="12 8 8 8" 
+                          materialDesign:DataGridAssist.ColumnHeaderPadding="4"
+                          Margin="12 4"
+                  Style="{StaticResource MaterialDesignDataGrid}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{resx:Translate 'Time', Uppercase=True}" 
+                                    Binding="{Binding BCK_Time, StringFormat='{}{0:d} {0:T}', ConverterCulture=IT}"
+                                    IsReadOnly="True" MinWidth="100"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Operation', Uppercase=True}" 
+                                    Binding="{Binding BCK_Operation}"
+                                    IsReadOnly="True" MinWidth="70" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'State 1', Uppercase=True}" 
+                                    Binding="{Binding MIS_L1_MST_Code}"
+                                    IsReadOnly="True" MinWidth="50" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'State 2', Uppercase=True}" 
+                                    Binding="{Binding MIS_L2_MST_Code}"
+                                    IsReadOnly="True" MinWidth="50" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Priority', Uppercase=True}" 
+                                    Binding="{Binding MIS_Priority}"
+                                    IsReadOnly="True" MinWidth="70" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Source', Uppercase=True}" 
+                                    Binding="{Binding MIS_Source_Location}"
+                                    IsReadOnly="True" MinWidth="100" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Current', Uppercase=True}" 
+                                    Binding="{Binding MIS_Current_Location}"
+                                    IsReadOnly="True" MinWidth="100" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Destination', Uppercase=True}" 
+                                    Binding="{Binding MIS_Destination_Location}"
+                                    IsReadOnly="True" MinWidth="100" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Result', Uppercase=True}" 
+                                    Binding="{Binding MIS_MRT_Code, Converter={StaticResource MissionResultConverter}}"
+                                    IsReadOnly="True" MinWidth="100" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Causal', Uppercase=True}" 
+                                    Binding="{Binding MIS_CAU_Code, Converter={StaticResource MissionCausalConverter}}"
+                                    IsReadOnly="True" MinWidth="100" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Current location (Error)', Uppercase=True}" 
+                                    Binding="{Binding MIS_ERR_Current_Location}"
+                                    IsReadOnly="True" MinWidth="100" CanUserSort="False"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Exception location (Error)', Uppercase=True}" 
+                                    Binding="{Binding MIS_ERR_Error_Location}"
+                                    IsReadOnly="True" MinWidth="100" CanUserSort="False" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+            </StackPanel>
+
+
+        </Grid>
+    </custom:DpiDecorator>
+</UserControl>

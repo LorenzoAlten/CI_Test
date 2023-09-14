@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EntranceMgr": {
+      "commandName": "Project",
+      "commandLineArgs": "1 100 11001"
+    }
+  }
+}

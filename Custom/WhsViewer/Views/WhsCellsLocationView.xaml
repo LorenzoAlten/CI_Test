@@ -1,0 +1,353 @@
+﻿<UserControl x:Class="WhsViewer.Views.WhsCellsLocationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WhsViewer.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="300"
+             Visibility="{Binding HasLocation, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="5" />
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="5" />
+            </Style>
+            <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+                <Setter Property="Padding" Value="8" />
+            </Style>
+
+            <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <materialDesign:Card materialDesign:ColorZoneAssist.Mode="Accent">
+            <DockPanel>
+                <materialDesign:ColorZone Mode="Accent" DockPanel.Dock="Top" Height="35">
+                    <Grid Margin="12 8 0 8">
+                        <Grid.Resources>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                <Setter Property="Margin" Value="0 0 4 0"/>
+                            </Style>
+                            <Style TargetType="materialDesign:PackIcon">
+                                <Setter Property="Width" Value="24"/>
+                                <Setter Property="Height" Value="24"/>
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MinWidth="80" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" MinWidth="40" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" MinWidth="40" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{resx:Translate Location, Uppercase=True}" Grid.Column="0" />
+                        <TextBlock Text="{resx:Translate Z, Suffix=:}" Grid.Column="1" />
+                        <TextBlock Text="{Binding Location.LOC_Z}" Grid.Column="2" />
+                        <TextBlock Text="{resx:Translate W, Suffix=:}" Grid.Column="3" />
+                        <TextBlock Text="{Binding Location.LOC_W}" Grid.Column="4" />
+
+                        <Button Name="ToMag" 
+                                ToolTip="{resx:Translate 'Rientro a magazzino'}"
+                                Visibility="{Binding IsBuffer, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Grid.Row="0" Grid.Column="5">
+                            <materialDesign:PackIcon Kind="Magnet" />
+                        </Button>
+                        
+                        <Button Name="Drive" 
+                                ToolTip="{resx:Translate 'Drive to cell'}"
+                                Visibility="{Binding IsMag, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Grid.Row="0" Grid.Column="6">
+                            <materialDesign:PackIcon Kind="MapMarkerRadius" />
+                        </Button>
+
+                        <Button Name="Move" 
+                                ToolTip="{resx:Translate 'Move Load Unit'}"
+                                Visibility="{Binding UserPerm, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                Grid.Row="0" Grid.Column="7">
+                            <materialDesign:PackIcon Kind="ArrowDecision" />
+                        </Button>
+
+                        <Button Name="Immediate"
+                                ToolTip="{resx:Translate 'Call immediate'}"
+                                Visibility="{Binding Location.IsEmpty, Converter={StaticResource InvertBooleanToVisibilityConverter}}"
+                                Grid.Row="0" Grid.Column="8">
+                            <materialDesign:PackIcon Kind="ExitToApp" />
+                        </Button>
+                    </Grid>
+                </materialDesign:ColorZone>
+
+                <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" DockPanel.Dock="Bottom"
+                                         HorizontalAlignment="Stretch"
+                                         resx:SnackBarCustomProperties.SnackBarNotification="{Binding SnackBarMessage}"/>
+
+                <Grid Margin="12 8" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="80" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" MinWidth="80" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" MinHeight="40" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <DockPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5">
+                        <Canvas Height="100" Width="100" DockPanel.Dock="Left"
+                                Margin="8">
+                            <Image Source="{svgc:SvgImage /Images/location_dimensions.svg}"
+                                   Height="90" Width="90"/>
+
+                            <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       Text="{Binding Location.UdcType.LengthClass.LNG_Desc}"
+                                       Canvas.Bottom="0" Canvas.Left="50"
+                                       ToolTip="{resx:Translate 'Length'}">
+                                <TextBlock.LayoutTransform>
+                                    <RotateTransform Angle="-30" />
+                                </TextBlock.LayoutTransform>
+                            </TextBlock>
+
+                            <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       Text="{Binding Location.UdcType.WidthClass.WDT_Desc}"
+                                       Canvas.Bottom="0" Canvas.Left="5"
+                                       ToolTip="{resx:Translate 'Width'}">
+                                <TextBlock.LayoutTransform>
+                                    <RotateTransform Angle="30" />
+                                </TextBlock.LayoutTransform>
+                            </TextBlock>
+
+                            <!--<StackPanel Orientation="Horizontal"
+                                        Canvas.Left="30" Canvas.Top="30">
+                                    <materialDesign:PackIcon Kind="ScaleBalance"
+                                                         Height="20" Width="20"/>
+                                    <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           Text="{Binding Location.UdcType.WeightClass.WGH_Desc}" Margin="4 0"
+                                           VerticalAlignment="Center"
+                                           ToolTip="{resx:Translate 'Weight'}"/>
+                                </StackPanel>-->
+                        </Canvas>
+
+                        <Grid Margin="8 0" IsEnabled="{Binding Location.CanSave}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" MinHeight="35" />
+                                <RowDefinition Height="Auto" MinHeight="35" />
+                                <RowDefinition Height="Auto" MinHeight="35" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock VerticalAlignment="Center" Grid.ColumnSpan="2"
+                                       Margin="0 0 0 8"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                                <Run Text="{Binding Location.UdcType.UDT_Code}"/>
+                                <Run Text="-"/>
+                                <Run Text="{Binding Location.UdcType.UDT_Desc}"/>
+                            </TextBlock>
+
+                            <TextBlock Text="{resx:Translate Enabling, Uppercase=True}" 
+                                       VerticalAlignment="Top"
+                                       Visibility="{Binding UserPerm, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       Grid.Row="1" Grid.Column="0" />
+                            <StackPanel Grid.Row="1" Grid.Column="1" >
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding Location.LOC_EnabledIN}"
+                                              Visibility="{Binding UserPerm, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                              Margin="4 0"/>
+                                    <TextBlock Text="{resx:Translate Input, Uppercase=True}"
+                                               VerticalAlignment="Center" 
+                                               Visibility="{Binding UserPerm, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                               Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox IsChecked="{Binding Location.LOC_EnabledOUT}"
+                                              Visibility="{Binding UserPerm, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                              Margin="4 0"/>
+                                    <TextBlock Text="{resx:Translate Output, Uppercase=True}"
+                                               VerticalAlignment="Center" 
+                                               Visibility="{Binding UserPerm, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                               Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <TextBlock Text="{resx:Translate State, Uppercase=True}"
+                                       VerticalAlignment="Center"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       Grid.Row="2" Grid.Column="0"/>
+                            <ComboBox Grid.Row="2" Grid.Column="1" 
+                                      ItemsSource="{Binding LocationStates}"
+                                      SelectedValue="{Binding Location.LOC_LOS_Code}"
+                                      IsSynchronizedWithCurrentItem="true"
+                                      Margin="4 0"
+                                      SelectedValuePath="LOS_Code" DisplayMemberPath="LOS_Desc"/>
+
+                            <TextBlock Text="{resx:Translate Error, Uppercase=True}"
+                                       VerticalAlignment="Center"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       Grid.Row="4" Grid.Column="0" />
+                            <CheckBox Grid.Row="4" Grid.Column="1"
+                                      Margin="4 0"
+                                      IsChecked="{Binding Location.LOC_Error}"
+                                      VerticalContentAlignment="Center"/>
+                        </Grid>
+                    </DockPanel>
+
+                    <TextBlock Text="{resx:Translate 'Load Unit'}" 
+                               Grid.Row="1" Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+                    <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" 
+                             Margin="12 4"
+                             Text="{Binding Location.LOC_UDC_Code}"
+                             IsReadOnly="True">
+                        <TextBox.ToolTip>
+                            <ItemsControl Background="{DynamicResource MaterialDesignPaper}"
+                                          TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                                          FontFamily="{StaticResource MaterialDesignFont}">
+
+                                <Canvas Height="100" Width="100" 
+                                        DataContext="{Binding Location}"
+                                        Visibility="{Binding HasData, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                        Margin="8">
+                                    <Image Source="{svgc:SvgImage /Images/udc_dimensions.svg}"
+                                           Height="90" Width="90"
+                                           Canvas.Left="15"/>
+
+                                    <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                               Text="{Binding Udc.HeightClass.HGT_Desc}"
+                                               Canvas.Bottom="45" Canvas.Left="5"
+                                               ToolTip="{resx:Translate 'Height'}">
+                                        <TextBlock.LayoutTransform>
+                                            <RotateTransform Angle="270" />
+                                        </TextBlock.LayoutTransform>
+                                    </TextBlock>
+
+                                    <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                               Text="{Binding Udc.WidthClass.WDT_Desc}"
+                                               Canvas.Bottom="0" Canvas.Left="25"
+                                               ToolTip="{resx:Translate 'Width'}">
+                                        <TextBlock.LayoutTransform>
+                                            <RotateTransform Angle="30" />
+                                        </TextBlock.LayoutTransform>
+                                    </TextBlock>
+
+                                    <TextBlock Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                               Text="{Binding Udc.LengthClass.LNG_Desc}"
+                                               Canvas.Bottom="0" Canvas.Left="70"
+                                               ToolTip="{resx:Translate 'Length'}">
+                                        <TextBlock.LayoutTransform>
+                                            <RotateTransform Angle="-30" />
+                                        </TextBlock.LayoutTransform>
+                                    </TextBlock>
+                                </Canvas>
+                            </ItemsControl>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <Button Name="EditUDC"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                            IsEnabled="{Binding Location.CanSave}" ToolTip="{resx:Translate 'Edit Load unit'}"
+                            Visibility="{Binding Location.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Width="24" Height="24" Margin="-2" Grid.Row="1" Grid.Column="4">
+                        <materialDesign:PackIcon Kind="Pencil" Height="16" Width="16" />
+                    </Button>
+
+                    <DataGrid IsReadOnly="True" AutoGenerateColumns="False"
+                              Background="Transparent"
+                              ItemsSource="{Binding Location.Udc.Compartments}" 
+                              Visibility="{Binding Location.HasData, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              HorizontalContentAlignment="Stretch"
+                              TabIndex="0" VerticalScrollBarVisibility="Auto"
+                              EnableRowVirtualization="True" Height="Auto" MinHeight="100" SelectionMode="Single"
+                              Grid.Row="2" Grid.ColumnSpan="5" Margin="0,10,10,10"
+                              materialDesign:DataGridAssist.CellPadding="4 2 2 2"
+                              materialDesign:DataGridAssist.ColumnHeaderPadding="4 2 2 2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="" IsReadOnly="True"
+                                                Binding="{Binding UCM_Index}" Width="Auto" MinWidth="40" />
+                            <DataGridTextColumn Header="{resx:Translate Owner, Uppercase=True}" IsReadOnly="True"
+                                        Binding="{Binding UCM_Owner}" Width="Auto"/>
+                            <DataGridTextColumn Header="{resx:Translate Item, Uppercase=True}" IsReadOnly="True"
+                                                Binding="{Binding Item.ITM_Desc}" Width="Auto"/>
+                            <DataGridTextColumn Header="{resx:Translate Quantity, Uppercase=True}" IsReadOnly="True"
+                                                Binding="{Binding UCM_Stock, StringFormat='F0', ConverterCulture=IT}" Width="Auto" />
+                            <DataGridTextColumn Header="{resx:Translate Batch, Uppercase=True}" IsReadOnly="True"
+                                                Binding="{Binding UCM_Batch}" Width="Auto" />
+                            <DataGridTextColumn Header="{resx:Translate Serial, Uppercase=True}" IsReadOnly="True"
+                                                Binding="{Binding UCM_SerialNum}" Width="Auto" />
+                            <DataGridTextColumn Header="{resx:Translate 'Expiration date', Uppercase=True}" IsReadOnly="True"
+                                                Binding="{Binding UCM_ExpiringDate, ConverterCulture=IT, StringFormat=d}" Width="Auto" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Button Name="Save"
+                            Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Padding="0" Margin="6 12"
+                            HorizontalAlignment="Right" VerticalAlignment="Top"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Content="{resx:Translate 'Save', Uppercase=True}" Width="100"/>
+
+                    <Button Name="Test"
+                            Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Padding="0" Margin="-10 10 10 0" Grid.RowSpan="3"
+                            HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding CanTest, Converter={StaticResource BooleanToVisibilityConverter}}"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}" 
+                            Content="{resx:Translate 'Test', Uppercase=True}" Width="100"/>
+                </Grid>
+            </DockPanel>
+        </materialDesign:Card>
+
+        <materialDesign:Card UniformCornerRadius="25" Width="50" Height="50" Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                             Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                         IsIndeterminate="True" Value="0" Width="40" Height="40"/>
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

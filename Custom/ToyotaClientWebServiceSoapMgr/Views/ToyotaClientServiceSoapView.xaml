@@ -1,0 +1,304 @@
+﻿<UserControl x:Class="ToyotaClientWebServiceSoapMgr.Views.ToyotaClientServiceSoapView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ToyotaClientWebServiceSoapMgr.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1280">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+                <Setter Property="Margin" Value="12 2" />
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignTextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="Margin" Value="0 2" />
+            </Style>
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignGroupBox}">
+                <Setter Property="Margin" Value="0 8 0 0" />
+                <Setter Property="Padding" Value="8 4" />
+                <Setter Property="Width" Value="700" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="resx:AutoCompleteTextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="4 8" />
+            </Style>
+            <Style TargetType="Grid" x:Key="SelectedItem">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <SolidColorBrush Color="{DynamicResource Primary100}" Opacity="0.5"/>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <resx:InvertBoolConverter x:Key="invertBoolConverter"/>
+            <resx:DecimalConverter x:Key="decimalConverter" Decimals="3"/>
+            <resx:DecimalConverter x:Key="intConverter" Decimals="0"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <materialDesign:PackIcon Kind="BoxVariant" Panel.ZIndex="-1"
+                                 VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                                 Width="256" Height="256" Foreground="{StaticResource SecondaryHueMidBrush}"
+                                 Opacity=".3"/>
+
+        <DockPanel>
+            <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" DockPanel.Dock="Bottom"
+                                     resx:SnackBarCustomProperties.SnackBarNotification="{Binding SnackBarMessage}"/>
+
+            <!--<StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <Button Name="ToWarehouse" Style="{StaticResource CommandButtonStyle}" HorizontalAlignment="Center"
+                        Visibility="{Binding CanToWarehouse, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Content="{resx:Translate 'Insert in the warehouse', Uppercase=True}" />
+                <Button Name="OnlyWrap" Style="{StaticResource CommandButtonStyle}" HorizontalAlignment="Center"
+                        Visibility="{Binding CanOnlyWrap, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Content="{resx:Translate 'Only wrap', Uppercase=True}" />
+                <Button Name="Insert" Style="{StaticResource CommandButtonStyle}" HorizontalAlignment="Center"
+                        Visibility="{Binding CanInsert, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Content="{resx:Translate 'ToyotaServiceSoap', Uppercase=True}" />
+            </StackPanel>-->
+
+            <!--<Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <materialDesign:Card Grid.Column="1" >
+                    <materialDesign:ColorZone Mode="PrimaryLight" Padding="15 10">
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="25"/>
+                                <RowDefinition Height="Auto" MinHeight="35"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{resx:Translate 'Scan the barcode of the load unit', Uppercase=True}"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           HorizontalAlignment="Center"/>
+                            <materialDesign:ColorZone Grid.Row="1" Padding="2"
+                                              Background="White" Foreground="Black"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                <DockPanel>
+                                    <materialDesign:PackIcon Kind="Barcode" DockPanel.Dock="Left"
+                                                     Height="30" Width="30" Margin="10 0 5 0"/>
+                                    <TextBox Name="txtUDCBarcode" TabIndex="0"
+                                             Text="{Binding UDCBarcode}"
+                                             FontSize="20"
+                                             BorderThickness="0"
+                                             HorizontalContentAlignment="Center">
+                                        <i:Interaction.Behaviors>
+                                            <resx:TextBoxEnterKeyUpdateBehavior/>
+                                            <resx:TextBoxOnFocusSelectAllBehavior/>
+                                        </i:Interaction.Behaviors>
+                                    </TextBox>
+                                </DockPanel>
+                            </materialDesign:ColorZone>
+                        </Grid>
+                    </materialDesign:ColorZone>
+                </materialDesign:Card>
+
+                <materialDesign:Card Grid.Column="1" Grid.Row="1" Margin="0 4">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <materialDesign:ColorZone Mode="Accent" Padding="12 10">
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       Text="{resx:Translate 'Pallet Content', Uppercase=True}" />
+                        </materialDesign:ColorZone>
+
+                        <ItemsControl DataContext="{Binding Udc}" ItemsSource="{Binding Compartments}" Grid.Row="1">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="8 4">
+                                        <Grid.Resources>
+                                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+                                                --><!--<Setter Property="Margin" Value="12 2" />--><!--
+                                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                --><!--<Setter Property="BorderThickness" Value="0"/>--><!--
+                                            </Style>
+                                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignTextBlock}">
+                                                <Setter Property="VerticalAlignment" Value="Center"/>
+                                                <Setter Property="FontWeight" Value="Medium"/>
+                                                <Setter Property="Margin" Value="0 2" />
+                                            </Style>
+                                        </Grid.Resources>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Grid.Row="0" Grid.Column="0"
+                                               VerticalAlignment="Center"
+                                               Text="{resx:Translate 'Item', Uppercase=True}"/>
+                                        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                             Text="{Binding Item, Mode=OneWay}" IsReadOnly="True" />
+
+                                        <TextBlock Grid.Row="2" Grid.Column="0" 
+                                               Text="{resx:Translate 'Quantity', Uppercase=True}"/>
+                                        <DockPanel Grid.Row="3" Grid.Column="0">
+                                            <TextBlock DockPanel.Dock="Right" VerticalAlignment="Bottom"
+                                                   Text="{Binding Item.ITM_StockUm}"
+                                                   Style="{StaticResource MaterialDesignBody2TextBlock}"/>
+                                            <TextBox Text="{Binding UCM_Stock, StringFormat='F0', ConverterCulture=IT, Mode=OneWay}" IsReadOnly="True"/>
+                                        </DockPanel>
+
+                                        <TextBlock Grid.Row="2" Grid.Column="1"
+                                               Text="{resx:Translate 'Batch', Uppercase=True}"/>
+                                        <TextBox  Grid.Row="3" Grid.Column="1" 
+                                              Text="{Binding UCM_Batch, Mode=OneWay}" IsReadOnly="True"/>
+
+                                        <TextBlock Grid.Row="2" Grid.Column="2"
+                                               Text="{resx:Translate 'Expiration date', Uppercase=True}"/>
+                                        <TextBox Grid.Row="3" Grid.Column="2"
+                                                Text="{Binding UCM_ExpiringDate, StringFormat='d', ConverterCulture=IT, Mode=OneWay}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        --><!--<materialDesign:ColorZone Mode="Accent" Padding="12 10" Grid.Row="2">
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       Text="{resx:Translate 'Production', Uppercase=True}" />
+                        </materialDesign:ColorZone>
+
+                        <Grid DataContext="{Binding Udc}" Margin="8 4" Grid.Row="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="35"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" 
+                               Text="{resx:Translate 'Job no.', Uppercase=True}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1"
+                             Text="{Binding UDC_OrderNo, Mode=OneWay}" IsReadOnly="True"/>
+                        </Grid>--><!--
+
+                        <materialDesign:ColorZone Mode="Accent" Padding="12 10" Grid.Row="4">
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       Text="{resx:Translate 'Customer data', Uppercase=True}" />
+                        </materialDesign:ColorZone>
+
+                        <Grid DataContext="{Binding Udc}" Margin="8 4" Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="35"/>
+                                <RowDefinition Height="Auto" MinHeight="35"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" 
+                                       Text="{resx:Translate 'Customer', Uppercase=True}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1"
+                                     Text="{Binding BusinessPartner, Mode=OneWay}" IsReadOnly="True" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" 
+                                       Text="{resx:Translate 'Order no.', Uppercase=True}" />
+                            <TextBox Grid.Row="1" Grid.Column="1"
+                                     Text="{Binding UDC_CustomerOrderNo, Mode=OneWay}" IsReadOnly="True" />
+                        </Grid>
+                    </Grid>
+                </materialDesign:Card>
+
+                <materialDesign:Card Grid.Column="1" Grid.Row="2"
+                                     HorizontalAlignment="Center"
+                                     Margin="0 8 0 4" Padding="8"
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                     Foreground="#DDFFFFFF" Background="#b71c1c"
+                                     Visibility="{Binding UdcHasErrors, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <DockPanel>
+                        <TextBlock Text="{resx:Translate 'Shape control', Uppercase=True}" 
+                                   DockPanel.Dock="Top"/>
+                        <Separator Style="{StaticResource MaterialDesignLightSeparator}"
+                                   DockPanel.Dock="Top"/>
+                        <Grid Margin="8 4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" 
+                                   Text="{Binding HeightClass.HGT_Desc, Mode=OneWay}"
+                                   Visibility="{Binding HeightClass.HGT_Waste, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            <TextBlock Grid.Row="1"
+                                       Text="{Binding WidthClass.WDT_Desc, Mode=OneWay}"
+                                       Visibility="{Binding WidthClass.WDT_Waste, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            <TextBlock Grid.Row="2"
+                                       Text="{Binding LengthClass.LNG_Desc, Mode=OneWay}"
+                                       Visibility="{Binding LengthClass.LNG_Waste, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                            <TextBlock Grid.Row="3"
+                                       Text="{Binding WeightClass.WGH_Desc, Mode=OneWay}"
+                                       Visibility="{Binding WeightClass.WGH_Waste, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
+                    </DockPanel>
+                </materialDesign:Card>
+            </Grid>-->
+        </DockPanel>
+
+        <!--<ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" Width="40" Height="40" Background="White" Opacity="0.7"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>-->
+    </Grid>
+</UserControl>

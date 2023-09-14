@@ -1,0 +1,229 @@
+﻿<UserControl x:Class="OrdersMgr.Views.InsertOrderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OrdersMgr.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <resx:DecimalConverter x:Key="DecimalConverter" Decimals="3"/>
+            <resx:InvertBoolConverter x:Key="InvertBoolConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+            <agilog:OrderDetStatusConverter x:Key="OrderDetStatusConverter"/>
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignSubtitle1TextBlock}">
+                <Setter Property="Margin" Value="0 20 0 0" />
+                <Setter Property="FontWeight" Value="Bold" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+                <Setter Property="MinHeight" Value="35"/>
+                <Setter Property="Margin" Value="0 5" />
+                <Setter Property="FontSize" Value="15" />
+            </Style>
+            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignFloatingHintComboBox}">
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="MinHeight" Value="35"/>
+                <Setter Property="MinWidth" Value="200"/>
+                <Setter Property="Margin" Value="0 15 0 0" />
+                <Setter Property="FontSize" Value="15" />
+            </Style>
+            <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MaterialDesignFloatingHintDatePicker}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="MinHeight" Value="35"/>
+                <Setter Property="MinWidth" Value="200"/>
+                <Setter Property="Margin" Value="0 15 0 5" />
+                <Setter Property="FontSize" Value="15" />
+            </Style>
+            <Style TargetType="resx:AutoCompleteTextBox" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+                <Setter Property="MinHeight" Value="35"/>
+                <Setter Property="Margin" Value="0 5 0 0" />
+                <Setter Property="FontSize" Value="15" />
+            </Style>
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="Margin" Value="15"/>
+                <Setter Property="Height" Value="24" />
+                <Setter Property="Width" Value="24" />
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <DockPanel Visibility="{Binding IsLoading, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                        <Setter Property="Margin" Value="4"/>
+                        <Setter Property="Height" Value="40"/>
+                    </Style>
+                </StackPanel.Resources>
+
+                <Button Name="Save" Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                    Content="{resx:Translate 'Save', Uppercase=True}"/>
+
+                <Button Name="Cancel"
+                    Content="{resx:Translate 'Cancel', Uppercase=True}"/>
+            </StackPanel>
+
+            <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="12 4">
+                    <TextBox Text="{Binding OrderCode, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"
+                         IsEnabled="{Binding Path=Order.LoadedFromDb, Converter={StaticResource InvertBoolConverter}}"
+                         materialDesign:HintAssist.Hint="{resx:Translate Code}"/>
+
+                    <TextBox Text="{Binding Description, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"
+                         materialDesign:HintAssist.Hint="{resx:Translate Description}"
+                         HorizontalAlignment="Stretch"/>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="{resx:Translate 'Business partner'}"
+                                   Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+
+                        <resx:AutoCompleteTextBox Grid.Column="0" Grid.Row="1"
+                                              cal:Message.Attach="[Event TextAutoCompleted] = [Action CodeAutoCompleted($eventArgs)]"
+                                              FilterMinLength="2" Dictionary="{Binding Path=Dictionary_BusinessPartnersCodes}"
+                                              Text="{Binding BPA_Code, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"
+                                              materialDesign:HintAssist.Hint="{resx:Translate Code}"/>
+                        <resx:AutoCompleteTextBox Grid.Column="1" Grid.Row="1" Margin="10 5 0 0"
+                                              cal:Message.Attach="[Event TextAutoCompleted] = [Action DescriptionAutoCompleted($eventArgs)]"
+                                              FilterMinLength="2" Dictionary="{Binding Path=Dictionary_BusinessPartnersDescriptions}"
+                                              Text="{Binding BPA_Desc, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"
+                                              materialDesign:HintAssist.Hint="{resx:Translate Description}"/>
+                    </Grid>
+
+                    <ComboBox SelectedValue="{Binding MIT_Code, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"
+                          ItemsSource="{Binding MisCfgTypeList}"                           
+                          SelectedValuePath="MIT_Code" DisplayMemberPath="MIT_Desc"
+                          materialDesign:HintAssist.Hint="{resx:Translate Operation}"/>
+
+                    <DatePicker SelectedDate="{Binding DueDate, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"
+                                materialDesign:HintAssist.Hint="{resx:Translate 'Fulfillment date'}"/>
+
+                    <ComboBox SelectedValue="{Binding Priority, NotifyOnValidationError=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True}"
+                              ItemsSource="{Binding PriorityList, Mode=OneTime}" 
+                              materialDesign:HintAssist.Hint="{resx:Translate Priority}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" 
+                                           Margin="0" FontWeight="Normal"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+
+            </ScrollViewer>
+
+            <materialDesign:ColorZone Mode="PrimaryLight" VerticalAlignment="Stretch" DockPanel.Dock="Right">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Focusable" Value="False" />
+                            <Setter Property="Height" Value="50"/>
+                            <Setter Property="Width" Value="50"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button Name="NewRow" DockPanel.Dock="Right">
+                        <materialDesign:PackIcon Kind="Plus" />
+                    </Button>
+                    <Button Name="EditRow" >
+                        <materialDesign:PackIcon Kind="Pencil" />
+                    </Button>
+                    <Button Name="DeleteRow" >
+                        <materialDesign:PackIcon Kind="Delete" />
+                    </Button>
+                </StackPanel>
+            </materialDesign:ColorZone>
+
+            <GroupBox Grid.Row="3" Padding="8" Margin="4 4 4 0" VerticalAlignment="Stretch"
+                  Header="{resx:Translate 'Order details', Uppercase=True}"
+                  Style="{DynamicResource MaterialDesignGroupBox}"
+                  materialDesign:ColorZoneAssist.Mode="Accent">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" FontWeight="Bold"
+                                   Text="{Binding}" />
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1">
+                    <DataGrid Name="OrdersDetailList" VerticalAlignment="Stretch"
+                              SelectedItem="{Binding Selected}"
+                              AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                              materialDesign:DataGridAssist.CellPadding="12 8 8 8" 
+                              materialDesign:DataGridAssist.ColumnHeaderPadding="4">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="{resx:Translate 'Line', Uppercase=True}" 
+                                            Binding="{Binding ODT_Line}"
+                                            IsReadOnly="True"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Item', Uppercase=True}"
+                                            Binding="{Binding Item.ITM_Desc}"
+                                            IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="{resx:Translate 'UDC', Uppercase=True}" 
+                                            Binding="{Binding ODT_UDC_Code}"
+                                            IsReadOnly="True" Width="*"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Compartment', Uppercase=True}" 
+                                            Binding="{Binding ODT_UCM_Index}"
+                                            IsReadOnly="True"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Required quantity', Uppercase=True}" 
+                                            Binding="{Binding ODT_QtyR, Converter={StaticResource DecimalConverter}}"
+                                            IsReadOnly="True"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Committed quantity', Uppercase=True}" 
+                                            Binding="{Binding ODT_QtyI, Converter={StaticResource DecimalConverter}}"
+                                            IsReadOnly="True"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Evaded quantity', Uppercase=True}" 
+                                            Binding="{Binding ODT_QtyE, Converter={StaticResource DecimalConverter}}"
+                                            IsReadOnly="True"/>
+                            <DataGridTextColumn Header="{resx:Translate 'Status', Uppercase=True}" 
+                                                Binding="{Binding ODT_ODS_Code, Converter={StaticResource OrderDetStatusConverter}}"
+                                                IsReadOnly="True"/>
+                            <DataGridCheckBoxColumn Header="{resx:Translate 'Closed', Uppercase=True}" 
+                                                Binding="{Binding ODT_Closed}"
+                                                IsReadOnly="True"/>
+                            <DataGridCheckBoxColumn Header="{resx:Translate 'In error', Uppercase=True}" 
+                                                Binding="{Binding ODT_Error}"
+                                                IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+            </GroupBox>
+        </DockPanel>
+
+        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" Width="40" Height="40" Background="White" Opacity="0.7"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

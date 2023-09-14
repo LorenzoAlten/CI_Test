@@ -1,0 +1,17 @@
+{
+  "ExtendedData": {
+    "inputs": [
+      "../../../../../../../../../Users/filazzola/Desktop/FileWSDL/OrderManagerHost_RPCEncoded.wsdl"
+    ],
+    "collectionTypes": [
+      "System.Array",
+      "System.Collections.Generic.Dictionary`2"
+    ],
+    "namespaceMappings": [
+      "*, WebServiceSoapToyota"
+    ],
+    "sync": true,
+    "targetFramework": "net7.0",
+    "typeReuseMode": "Specified"
+  }
+}

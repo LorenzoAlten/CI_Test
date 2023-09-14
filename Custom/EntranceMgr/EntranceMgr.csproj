@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.21.12" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.51.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.355802">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.117" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Dll\Src\AgilogDll\AgilogDll.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mSwAgilogDll">
+      <HintPath>..\..\..\..\..\..\..\mSw\mSwScada\V7.0.0\Bin\Dll\net7.0-windows\mSwAgilogDll.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllMFC">
+      <HintPath>..\..\..\..\..\..\..\mSw\mSwSCADA\V7.0.0\Bin\Dll\net7.0-windows\mSwDllMFC.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllUtils">
+      <HintPath>..\..\..\..\..\..\..\mSw\mSwSCADA\V7.0.0\Bin\Dll\net7.0-windows\mSwDllUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllWPFUtils">
+      <HintPath>..\..\..\..\Bin\net7.0-windows\mSwDllWPFUtils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

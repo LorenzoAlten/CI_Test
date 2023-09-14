@@ -1,0 +1,5 @@
+D:\Errevi\Sodico\Agilog\App\Src\Custom\EntranceMgr\obj\Debug\net7.0-windows\EntranceMgr.csproj.AssemblyReference.cache
+D:\Errevi\Sodico\Agilog\App\Src\Custom\EntranceMgr\obj\Debug\net7.0-windows\App.g.cs
+D:\Errevi\Sodico\Agilog\App\Src\Custom\EntranceMgr\obj\Debug\net7.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Errevi\Sodico\Agilog\App\Src\Custom\EntranceMgr\obj\Debug\net7.0-windows\EntranceMgr_MarkupCompile.cache
+D:\Errevi\Sodico\Agilog\App\Src\Custom\EntranceMgr\obj\Debug\net7.0-windows\EntranceMgr_MarkupCompile.lref

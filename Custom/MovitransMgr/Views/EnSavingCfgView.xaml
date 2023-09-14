@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="Movitrans.Views.EnSavingCfgView"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:cal="http://www.caliburnproject.org"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <resx:DecimalConverter x:Key="DecimalConverter" Decimals="3"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Focusable" Value="False" />
+            </Style>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                <Setter Property="BorderThickness" Value="0"/>
+            </Style>
+            <Style TargetType="DataGrid" BasedOn="{StaticResource MaterialDesignDataGrid}">
+                <Setter Property="Margin" Value="0" />
+            </Style>
+            <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+            </Style>
+            <Style x:Key="DecimalStyle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+            </Style>
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="Height" Value="24" />
+                <Setter Property="Width" Value="24" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel>
+        <GroupBox Header="RISPARMIO ENERGETICO"
+                  materialDesign:ColorZoneAssist.Mode="Accent">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <TextBlock Text="ABILITATO" Margin="8 0 250 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubtitle2TextBlock}" />
+                    <CheckBox IsChecked="{Binding Mgr.EnSavingEnabled}" HorizontalAlignment="Right" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <TextBlock Margin="8 10 80 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                               Text="{resx:Translate 'Tempo Inattività (min)', Uppercase=True}" />
+                    <TextBox Text="{Binding Mgr.EnSavingWait, TargetNullValue='0'}" MinWidth="100" HorizontalContentAlignment="Right"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20">
+                    </TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
+                    <TextBlock Margin="8 10 80 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                               Text="{resx:Translate 'Potenza Inattività (%)', Uppercase=True}" />
+                    <TextBox Text="{Binding Mgr.EnSavingOutputPower, TargetNullValue='0'}" MinWidth="100" HorizontalContentAlignment="Right"
+                             Style="{StaticResource MaterialDesignFloatingHintTextBox}" FontSize="20" />
+                </StackPanel>
+            </DockPanel>
+        </GroupBox>
+    </StackPanel>
+</UserControl>

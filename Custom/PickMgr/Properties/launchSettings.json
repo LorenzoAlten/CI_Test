@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "PickMgr": {
+      "commandName": "Project",
+      "commandLineArgs": "1 100 10100"
+    }
+  }
+}

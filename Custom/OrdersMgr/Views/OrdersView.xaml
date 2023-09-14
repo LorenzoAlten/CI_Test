@@ -1,0 +1,495 @@
+﻿<UserControl x:Class="OrdersMgr.Views.OrdersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OrdersMgr.Views"
+             xmlns:root="clr-namespace:OrdersMgr"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:cal="http://www.caliburnproject.org"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <resx:DecimalConverter x:Key="DecimalConverter" Decimals="3"/>
+            <resx:DecimalConverter x:Key="IntConverter" Decimals="0"/>
+            <agilog:QuantityConverter x:Key="QuantityConverter"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+            <agilog:MissionTypeConverter x:Key="MissionTypeConverter"/>
+            <agilog:MissionPhaseConverter x:Key="MissionPhaseConverter"/>
+            <agilog:OrderDetStatusConverter x:Key="OrderDetStatusConverter"/>
+            <agilog:OrderDetItemBookingConverter x:Key="OrderDetItemBookingConverter"/>
+            <root:OrderMissionsCompletedConverter x:Key="OrderMissionsCompletedConverter" />
+            <root:OrderLineMissionsCompletedConverter x:Key="OrderLineMissionsCompletedConverter" />
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Width" Value="75"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            </Style>
+            <Style TargetType="materialDesign:PackIcon">
+                <!--<Setter Property="Margin" Value="5"/>
+                <Setter Property="Height" Value="24" />
+                <Setter Property="Width" Value="24" />-->
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ORD_MOP_Code}" Value="SCH">
+                        <Setter Property="Background" Value="#005800"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ODT_ODS_Code}" Value="E">
+                        <Setter Property="Background" Value="#005800"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ORD_MOP_Code}" Value="C">
+                        <Setter Property="Background" Value="#005391"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ODT_ODS_Code}" Value="C">
+                        <Setter Property="Background" Value="#005391"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ODT_Error}" Value="True">
+                        <Setter Property="Background" Value="DarkRed"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                <Setter Property="BorderThickness" Value="0"/>
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True"/>
+                            <Condition Binding="{Binding ORD_MOP_Code}" Value="SCH"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Background" Value="#008000"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True"/>
+                            <Condition Binding="{Binding ODT_ODS_Code}" Value="E"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Background" Value="#008000"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True"/>
+                            <Condition Binding="{Binding ORD_MOP_Code}" Value="C"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Background" Value="#0072C6"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True"/>
+                            <Condition Binding="{Binding ODT_ODS_Code}" Value="C"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Background" Value="#0072C6"/>
+                        <Setter Property="Foreground" Value="White"/>
+                    </MultiDataTrigger>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True"/>
+                            <Condition Binding="{Binding ODT_Error}" Value="True"/>
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="Background" Value="Red"/>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+                <Setter Property="Margin" Value="12 6 12 4" />
+                <Setter Property="Padding" Value="8" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+            </Style>
+            <Style x:Key="ToolButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Height" Value="50"/>
+                <Setter Property="Width" Value="50"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <DockPanel>
+
+            <materialDesign:ColorZone DockPanel.Dock="Top" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid"
+                                      Panel.ZIndex="1">
+                <DockPanel>
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="{Binding FilterToggleButtonIsChecked}"
+                                          x:Name="FilterToggleButton">
+                        <!--<ToggleButton.Content>
+                                <materialDesign:PackIcon Kind="Magnify" />
+                            </ToggleButton.Content>
+                            <materialDesign:ToggleButtonAssist.OnContent>
+                                <materialDesign:PackIcon Kind="ArrowLeft" />
+                            </materialDesign:ToggleButtonAssist.OnContent>-->
+                    </ToggleButton>
+                    <TextBlock Name="DisplayName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
+                </DockPanel>
+            </materialDesign:ColorZone>
+
+            <ContentControl Name="FilterOrder"
+                                Width="300" DockPanel.Dock="Left" Margin="12 4"
+                                Visibility="{Binding ElementName=FilterToggleButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Grid VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0"
+                          Header="{resx:Translate Orders, Uppercase=True}"
+                          materialDesign:ColorZoneAssist.Mode="Accent">
+                    <GroupBox.Resources>
+                        <Style TargetType="materialDesign:PackIcon">
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Height" Value="20" />
+                            <Setter Property="Width" Value="20" />
+                        </Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Margin" Value="-8"/>
+                            <Setter Property="Focusable" Value="False" />
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </GroupBox.Resources>
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                                <UniformGrid Rows="1" Columns="1" DockPanel.Dock="Left">
+                                    <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" FontWeight="Bold"
+                                           Text="{Binding}" />
+                                </UniformGrid>
+                                <UniformGrid Rows="1" Columns="1" DockPanel.Dock="Right">
+                                    <Button Name="StopAll" 
+                                            ToolTip="{resx:Translate Stop All}">
+                                        <materialDesign:PackIcon Kind="StopCircle" />
+                                    </Button>
+                                </UniformGrid>
+                            </DockPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <DockPanel Margin="-8">
+                        <materialDesign:ColorZone Mode="PrimaryLight" DockPanel.Dock="Bottom">
+                            <materialDesign:ColorZone.Resources>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Focusable" Value="False" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </materialDesign:ColorZone.Resources>
+                            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                                <UniformGrid Rows="1" Columns="5" DockPanel.Dock="Left">
+                                    <Button Name="Start" IsEnabled="{Binding CanStart}"
+                                            ToolTip="Lancio COMPLETO">
+                                        <materialDesign:PackIcon Kind="Truck" />
+                                    </Button>
+                                    <Button Name="StartPick" IsEnabled="{Binding CanStart}"
+                                            ToolTip="Lancio solo PICKING">
+                                        <materialDesign:PackIcon Kind="HandTruck" />
+                                    </Button>
+                                    <Button Name="Prepare" IsEnabled="{Binding CanPrepare}"
+                                            ToolTip="Preparazione ordine">
+                                        <materialDesign:PackIcon Kind="ClockStart" />
+                                    </Button>
+                                    <Button Name="Stop" IsEnabled="{Binding CanStop}" 
+                                            ToolTip="Stop">
+                                        <materialDesign:PackIcon Kind="Stop" />
+                                    </Button>
+                                    <Button Name="Export" Visibility="Collapsed"
+                                            ToolTip="{resx:Translate Export}">
+                                        <materialDesign:PackIcon Kind="Export" />
+                                    </Button>
+                                    <Button Name="ViewUDC"
+                                            ToolTip="Vedi UDC coinvolte">
+                                        <materialDesign:PackIcon Kind="FormatListBulleted" />
+                                    </Button>
+                                </UniformGrid>
+                                <UniformGrid Rows="1" Columns="4" DockPanel.Dock="Right">
+                                    <Button Name="New" Visibility="Hidden"
+                                            ToolTip="{resx:Translate 'New order'}">
+                                        <materialDesign:PackIcon Kind="Plus" />
+                                    </Button>
+                                    <Button Name="Edit" Visibility="Hidden"
+                                            ToolTip="{resx:Translate 'Edit order'}">
+                                        <materialDesign:PackIcon Kind="Pencil" />
+                                    </Button>
+                                    <Button Name="Delete"
+                                            ToolTip="Cancella ordine">
+                                        <materialDesign:PackIcon Kind="Delete" />
+                                    </Button>
+                                    <Button Name="RefreshAll"
+                                            ToolTip="Refresh">
+                                        <materialDesign:PackIcon Kind="Refresh" />
+                                    </Button>
+                                </UniformGrid>
+                            </DockPanel>
+                        </materialDesign:ColorZone>
+
+                        <DataGrid Name="OrdersList" VerticalAlignment="Stretch" SelectionUnit="FullRow" SelectionMode="Single"
+                                      SelectedItem="{Binding SelectedOrder}"
+                                      AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                                      materialDesign:DataGridAssist.CellPadding="12 8 8 8" 
+                                      materialDesign:DataGridAssist.ColumnHeaderPadding="4"
+                                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                      Background="Transparent"
+                                  >
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn IsReadOnly="False" Width="Auto" MinWidth="50">
+                                    <DataGridTemplateColumn.Header>
+                                        <HeaderedContentControl>
+                                            <CheckBox Margin="2 -10 0 0" IsChecked="{Binding DataContext.SelectAll, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}"
+                                                      Focusable="False" Style="{StaticResource MaterialDesignAccentCheckBox}">
+                                                <CheckBox.RenderTransform>
+                                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                                </CheckBox.RenderTransform>
+                                            </CheckBox>
+                                        </HeaderedContentControl>
+                                    </DataGridTemplateColumn.Header>
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox Focusable="False" IsChecked="{Binding IsSelected}" PreviewMouseLeftButtonDown="Selection_PreviewMouseLeftButtonDown"
+                                                      Margin="0 -12 0 0" Style="{StaticResource MaterialDesignAccentCheckBox}">
+                                                <CheckBox.RenderTransform>
+                                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                                </CheckBox.RenderTransform>
+                                            </CheckBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{resx:Translate 'Owner', Uppercase=True}" 
+                                                        Binding="{Binding ORD_Owner}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Order', Uppercase=True}" 
+                                                        Binding="{Binding ORD_OrderCode}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Creation date', Uppercase=True}" 
+                                                        Binding="{Binding ORD_DocDate, ConverterCulture=IT}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Description', Uppercase=True}" 
+                                                        Binding="{Binding ORD_Description}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Customer Code', Uppercase=True}" 
+                                                        Binding="{Binding BusinessPartner.BPA_Code}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Customer', Uppercase=True}" 
+                                                        Binding="{Binding BusinessPartner.BPA_Desc}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Destination', Uppercase=True}" 
+                                                        Binding="{Binding BusinessPartnersDestination.BPD_Street}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Delivery Date', Uppercase=True}" 
+                                                        Binding="{Binding ORD_DueDate, ConverterCulture=IT}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Operation', Uppercase=True}" 
+                                                        Binding="{Binding ORD_MIT_Code, Converter={StaticResource MissionTypeConverter}}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Phase', Uppercase=True}" 
+                                                        Binding="{Binding ORD_MOP_Code, Converter={StaticResource MissionPhaseConverter}}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Missions', Uppercase=True}" IsReadOnly="True">
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding Converter="{StaticResource OrderMissionsCompletedConverter}">
+                                            <MultiBinding.Bindings>
+                                                <Binding Path="OrderPhaseType"/>
+                                                <Binding Path="ORD_CompletedMissions"/>
+                                                <Binding Path="ORD_TotalMissions"/>
+                                            </MultiBinding.Bindings>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="{resx:Translate 'Due date', Uppercase=True}" Visibility="Collapsed"
+                                                        Binding="{Binding ORD_DueDate, ConverterCulture=IT}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Priority', Uppercase=True}" Visibility="Collapsed"
+                                                        Binding="{Binding ORD_Priority}"
+                                                        IsReadOnly="True"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </GroupBox>
+
+                <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                              Panel.ZIndex="1">
+                    <GridSplitter.Template>
+                        <ControlTemplate TargetType="{x:Type GridSplitter}">
+                            <materialDesign:PackIcon Kind="DragHorizontal" />
+                        </ControlTemplate>
+                    </GridSplitter.Template>
+                </GridSplitter>
+
+                <GroupBox Grid.Row="2"
+                          Header="{Binding SelectedOrder.ORD_OrderCode}"
+                          materialDesign:ColorZoneAssist.Mode="Accent">
+                    <GroupBox.Resources>
+                        <Style TargetType="materialDesign:PackIcon">
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Height" Value="20" />
+                            <Setter Property="Width" Value="20" />
+                        </Style>
+                    </GroupBox.Resources>
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="8 0" VerticalAlignment="Center" FontWeight="Bold"
+                                           Text="{resx:Translate 'Order details', Uppercase=True}"/>
+                                <TextBlock VerticalAlignment="Center" FontWeight="Bold"
+                                           Text="{Binding}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <DockPanel Margin="-8">
+                        <materialDesign:ColorZone Mode="PrimaryLight" DockPanel.Dock="Bottom">
+                            <materialDesign:ColorZone.Resources>
+                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Focusable" Value="False" />
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </materialDesign:ColorZone.Resources>
+                            <Button Name="RefreshRows"
+                                    HorizontalAlignment="Right"
+                                    ToolTip="{resx:Translate 'Refresh'}">
+                                <materialDesign:PackIcon Kind="Refresh" />
+                            </Button>
+                        </materialDesign:ColorZone>
+
+                        <DataGrid Name="OrdersLinesList" VerticalAlignment="Stretch"
+                                  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                                  materialDesign:DataGridAssist.CellPadding="12 8 8 8" 
+                                  materialDesign:DataGridAssist.ColumnHeaderPadding="4"
+                                  VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                                  Background="Transparent">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{resx:Translate 'Owner', Uppercase=True}" 
+                                                        Binding="{Binding ODT_Owner}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Order', Uppercase=True}" 
+                                                        Binding="{Binding ODT_ORD_OrderCode}"
+                                                        IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Line', Uppercase=True}" 
+                                            Binding="{Binding ODT_Line}"
+                                            IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Item', Uppercase=True}"
+                                                    Binding="{Binding ODT_ITM_Code}"
+                                                    IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Description', Uppercase=True}"
+                                                    Binding="{Binding Order.ORD_Description}"
+                                                    IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Delivery Date', Uppercase=True}"
+                                                    Binding="{Binding Order.ORD_DueDate, ConverterCulture=IT}"
+                                                    IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Booking Code', Uppercase=True}"
+                                            Binding="{Binding ODT_BookingCode}"
+                                            IsReadOnly="True" Width="*" Visibility="Collapsed"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Batch', Uppercase=True}"
+                                            Binding="{Binding ODT_Batch}"
+                                            IsReadOnly="True" Width="*" Visibility="Collapsed"/>
+                                <DataGridTextColumn Header="{resx:Translate 'UDC', Uppercase=True}" 
+                                            Binding="{Binding ODT_UDC_Code}"
+                                            IsReadOnly="True" Width="*" Visibility="Collapsed"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Compartment', Uppercase=True}" 
+                                            Binding="{Binding ODT_UCM_Index}"
+                                            IsReadOnly="True" Visibility="Collapsed"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Required quantity', Uppercase=True}" 
+                                            Binding="{Binding ODT_QtyR, StringFormat='F0', ConverterCulture=IT}"
+                                            IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Committed quantity', Uppercase=True}" 
+                                            Binding="{Binding ODT_QtyI, StringFormat='F0', ConverterCulture=IT}"
+                                            IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Evaded quantity', Uppercase=True}" 
+                                            Binding="{Binding ODT_QtyE, StringFormat='F0', ConverterCulture=IT}"
+                                            IsReadOnly="True"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Status', Uppercase=True}" 
+                                                Binding="{Binding ODT_ODS_Code, Converter={StaticResource OrderDetStatusConverter}}"
+                                                IsReadOnly="True"/>
+                                <DataGridTemplateColumn Header="{resx:Translate 'Complete', Uppercase=True}" 
+                                                        IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <materialDesign:PackIcon Kind="Check"
+                                                                     Margin="0" HorizontalAlignment="Center"
+                                                                     Visibility="{Binding ODT_Closed, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{resx:Translate 'Priority', Uppercase=True}" 
+                                            Binding="{Binding ODT_Priority}"
+                                            IsReadOnly="True" Visibility="Collapsed"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Bay', Uppercase=True}" 
+                                            Binding="{Binding ODT_BAY_Num}"
+                                            IsReadOnly="True" Visibility="Collapsed"/>
+                                <DataGridTextColumn Header="{resx:Translate 'Missions', Uppercase=True}" IsReadOnly="True" Visibility="Collapsed">
+                                    <DataGridTextColumn.Binding>
+                                        <MultiBinding Converter="{StaticResource OrderLineMissionsCompletedConverter}">
+                                            <MultiBinding.Bindings>
+                                                <Binding Path="State"/>
+                                                <Binding Path="ODT_CompletedMissions"/>
+                                                <Binding Path="ODT_TotalMissions"/>
+                                            </MultiBinding.Bindings>
+                                        </MultiBinding>
+                                    </DataGridTextColumn.Binding>
+                                </DataGridTextColumn>
+                                <DataGridCheckBoxColumn Header="{resx:Translate 'In error', Uppercase=True}" 
+                                                Binding="{Binding ODT_Error}"
+                                                IsReadOnly="True" Visibility="Collapsed"/>
+                                <DataGridTemplateColumn Header="{resx:Translate 'Errors', Uppercase=True}"
+                                                        IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Style="{StaticResource ToolButton}" Margin="-10" Padding="0" Width="30" Height="30"
+                                                    Command="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.ErrorCommand}" 
+                                                    CommandParameter="{Binding}"
+                                                    Visibility="{Binding ODT_Error, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <materialDesign:PackIcon Kind="Launch" />
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </GroupBox>
+
+                <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" Grid.RowSpan="3"
+                                         resx:SnackBarCustomProperties.SnackBarNotification="{Binding SnackBarMessage}"/>
+            </Grid>
+        </DockPanel>
+
+        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" Width="40" Height="40" Background="White" Opacity="0.7"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" RenderTransformOrigin="1.575,0"/>
+    </Grid>
+</UserControl>

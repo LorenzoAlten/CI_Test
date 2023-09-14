@@ -1,0 +1,101 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Movitrans</RootNamespace>
+    <AssemblyName>Movitrans</AssemblyName>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+    <OutputPath>..\..\..\Bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="adjunct-Caliburn.Micro.Validation" Version="1.0.0" />
+    <PackageReference Include="LiveCharts.Wpf.Core" Version="0.9.8" />
+    <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageReference Include="System.Memory" Version="4.5.4" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.8.1" />
+    <PackageReference Include="Caliburn.Micro" Version="4.0.212" />
+    <PackageReference Include="Microsoft.Windows.Compatibility" Version="7.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ViewModels\MissionsViewModel.cs" />
+    <Compile Remove="Views\MissionsView.xaml.cs" />
+    <Page Remove="Views\MissionsView.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Dll\Src\AgilogDll\AgilogDll.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="AgilogDll">
+      <HintPath>..\..\..\Bin\net7.0-windows\AgilogDll.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwAgilogDll">
+      <HintPath>..\..\..\Bin\net7.0-windows\mSwAgilogDll.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllEntities">
+      <HintPath>..\..\..\Bin\net7.0-windows\mSwDllEntities.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllGrpc">
+      <HintPath>..\..\..\Bin\net7.0-windows\mSwDllGrpc.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllGrpcCommon">
+      <HintPath>..\..\..\Bin\net7.0-windows\mSwDllGrpcCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllMFC">
+      <HintPath>..\..\..\Bin\net7.0-windows\mSwDllMFC.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllUtils">
+      <HintPath>..\..\..\Bin\net7.0-windows\mSwDllUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllWPFUtils">
+      <HintPath>..\..\..\Bin\net7.0-windows\mSwDllWPFUtils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

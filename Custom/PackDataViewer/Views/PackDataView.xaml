@@ -1,0 +1,232 @@
+﻿<UserControl x:Class="PackDataViewer.Views.PackDataView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PackDataViewer.Views"
+             xmlns:domain="clr-namespace:PackDataViewer"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="480" d:DesignWidth="640">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <resx:DecimalConverter x:Key="DecimalConverter" Decimals="3"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+            <Style x:Key="SubTitle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="HorizontalAlignment" Value="Right"/>
+                <Setter Property="Foreground" Value="{StaticResource SecondaryHueMidBrush}"/>
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="materialDesign:PackIcon">
+                <!--<Setter Property="Height" Value="24" />
+                <Setter Property="Width" Value="24" />-->
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <DockPanel>
+            <materialDesign:ColorZone DockPanel.Dock="Top" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" Grid.Row="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="Evacuate" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Grid.Column="0" Margin="0,0,0,0"
+                            IsEnabled="{Binding CanEvacuate}" ToolTip="{resx:Translate 'Evacuate load unit'}">
+                        <materialDesign:PackIcon Kind="Export" Height="24" Width="24" />
+                    </Button>
+                    <TextBlock Name="DisplayName" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22" Grid.Column="0" Grid.ColumnSpan="10"/>
+                    <Button x:Name="Abort" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Grid.Column="4" Margin="0,0,0,0"
+                            IsEnabled="{Binding CanAbort}" ToolTip="{resx:Translate 'Abort mission'}" Visibility="Collapsed">
+                        <materialDesign:PackIcon Kind="DeleteForever" Height="24" Width="24" />
+                    </Button>
+                    <Button x:Name="Delete" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Grid.Column="5" Margin="16,0,0,0"
+                            IsEnabled="{Binding CanDelete}" ToolTip="{resx:Translate 'Remove tracking from position'}">
+                        <materialDesign:PackIcon Kind="DeleteForever" Height="24" Width="24" />
+                    </Button>
+                    <Button x:Name="Save" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Grid.Column="6" Margin="16,0,0,0"
+                            IsEnabled="{Binding CanSave}" ToolTip="{resx:Translate 'Save tracking to position'}">
+                        <materialDesign:PackIcon Kind="ContentSave" Height="24" Width="24" />
+                    </Button>
+                </Grid>
+            </materialDesign:ColorZone>
+
+            <Grid VerticalAlignment="Stretch" Margin="0 8">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:PackIcon Kind="PackageVariantClosed" Height="128" Width="128" Foreground="{StaticResource SecondaryHueMidBrush}"
+                                         VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0 0" Opacity="1" />
+
+                <Grid Grid.Column="0" Margin="5 0 5 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Background="{StaticResource SecondaryHueMidBrush}" Margin="0 0 0 0">
+                        <TextBlock Text="{resx:Translate 'Tracking data'}" HorizontalAlignment="Left" FontWeight="Bold" Foreground="{StaticResource SecondaryHueMidForegroundBrush}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Row="0" Margin="0 2 0 0" BorderThickness="0 1 0 0" BorderBrush="{StaticResource SecondaryHueMidBrush}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="{resx:Translate 'Load unit'}" Style="{StaticResource SubTitle}" />
+
+                                <Grid Grid.Row="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" MaxWidth="300" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{resx:Translate 'Code', Suffix=':'}" Grid.Column="0" />
+                                    <materialDesign:ColorZone Grid.Column="1" Padding="2"
+                                              Mode="Standard" Margin="5 0"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth2">
+                                        <DockPanel>
+                                            <materialDesign:PackIcon Kind="Barcode" DockPanel.Dock="Right"
+                                                         Height="24" Width="24" Margin="5 0"/>
+                                            <TextBox IsReadOnly="False" HorizontalContentAlignment="Left"
+                                                     Text="{Binding UdcCode, UpdateSourceTrigger=LostFocus}"
+                                                     BorderThickness="0" FontWeight="Normal"
+                                                     materialDesign:TextFieldAssist.DecorationVisibility="Hidden">
+                                                <i:Interaction.Behaviors>
+                                                    <resx:TextBoxEnterKeyUpdateBehavior/>
+                                                    <resx:TextBoxOnFocusSelectAllBehavior/>
+                                                </i:Interaction.Behaviors>
+                                            </TextBox>
+                                        </DockPanel>
+                                    </materialDesign:ColorZone>
+
+                                    <Button Name="UdcDetails" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                            Grid.Column="2" Margin="5" IsEnabled="{Binding CanDetails}" ToolTip="{resx:Translate 'Details'}" Height="30" Width="30">
+                                        <materialDesign:PackIcon Kind="PackageVariantClosed" Height="22" Width="22" />
+                                    </Button>
+
+                                    <TextBlock Text="{resx:Translate 'Type', Suffix=':'}" Grid.Row="1" Grid.Column="0" />
+                                    <ComboBox ItemsSource="{Binding Path=UdcTypes}" SelectedValue="{Binding Path=UdcType, Mode=TwoWay}"
+                                              SelectedValuePath="Value" DisplayMemberPath="Description"
+                                              Grid.Row="1" Grid.Column="1" IsEnabled="{Binding EnabledForEditing}" Width="200" HorizontalAlignment="Left"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <Border Grid.Row="1" Margin="0 10 0 0" BorderThickness="0 1 0 0" BorderBrush="{StaticResource SecondaryHueMidBrush}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Text="{resx:Translate 'Mission'}" Style="{StaticResource SubTitle}" />
+
+                                <Grid Grid.Row="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="20" />
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{resx:Translate 'Mission', Suffix=':'}" Grid.Column="0" />
+                                    <TextBox Text="{Binding MissionID, UpdateSourceTrigger=LostFocus}"
+                                             Grid.Column="1" Width="80" HorizontalContentAlignment="Right" IsReadOnly="True"/>
+
+                                    <TextBlock Text="{resx:Translate 'Destination', Suffix=':'}" Grid.Column="3" />
+                                    <ComboBox ItemsSource="{Binding Path=Destinations}" SelectedValue="{Binding Path=Destination, Mode=TwoWay}"
+                                              SelectedValuePath="Value" DisplayMemberPath="Description"
+                                              Grid.Column="4" IsEnabled="{Binding EnabledForEditing}" Width="150" HorizontalContentAlignment="Left"/>
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <materialDesign:Card Grid.Row="4"
+                                     HorizontalAlignment="Stretch"
+                                     Margin="2" Padding="2 4"
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                     Foreground="#DDFFFFFF" Background="#b71c1c"
+                                     Visibility="{Binding PositionHasAlarm, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <TextBlock Name="PositionAlarm" TextWrapping="Wrap" />
+                        </materialDesign:Card>
+                    </Grid>
+                </Grid>
+
+                <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" Grid.RowSpan="3"
+                                         resx:SnackBarCustomProperties.SnackBarNotification="{Binding SnackBarMessage}"/>
+            </Grid>
+        </DockPanel>
+
+        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" Width="40" Height="40" Background="White" Opacity="0.7"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     IsIndeterminate="True" Foreground="{StaticResource SecondaryHueMidBrush}"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

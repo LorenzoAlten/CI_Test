@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="AgvMgr.Views.MissionDetailsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             mc:Ignorable="d" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="Margin" Value="12 2" />
+        </Style>
+        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MaterialDesignComboBox}">
+            <Setter Property="Margin" Value="12 2 0 2" />
+        </Style>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignCheckBox}">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="12 2 0 2" />
+        </Style>
+        <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MaterialDesignDatePicker}">
+            <Setter Property="Margin" Value="12 2 0 2" />
+            <Setter Property="MinWidth" Value="120" />
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0 2" />
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <!--<Setter Property="Height" Value="24" />
+                <Setter Property="Width" Value="24" />-->
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+        <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Width" Value="350" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="CommandButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+            <Setter Property="Margin" Value="4" />
+        </Style>
+
+        <ObjectDataProvider x:Key="MovieDataProvider" MethodName="GetValues" ObjectType="{x:Type agilog:EMissionState}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type Type="agilog:EMissionState"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <DockPanel>
+        <Button Style="{StaticResource CommandButtonStyle}" 
+                        Content="{resx:Translate 'Save', Uppercase=True}" cal:Message.Attach="[Event Click] = [Action Salva()]"
+                        DockPanel.Dock="Bottom" HorizontalAlignment="Center" />
+        <GroupBox Header="{Binding AgvRequest}"
+                      materialDesign:ColorZoneAssist.Mode="Accent">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <TextBlock Margin="8 0 0 0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                   Text="{resx:Translate 'Mission', Uppercase=True}" />
+                        <materialDesign:ColorZone Padding="2" Margin="12 0" Width="150"
+                                                  HorizontalAlignment="Right"
+                                              Background="White" Foreground="Black"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                            <TextBox Text="{Binding AGV_Mission, TargetNullValue=''}"/>
+                        </materialDesign:ColorZone>
+                    </DockPanel>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+
+            <Grid Margin="8 4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="35"/>
+                    <RowDefinition Height="Auto" MinHeight="35"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="{resx:Translate 'Mission State',Suffix=''}"/>
+                <ComboBox Grid.Row="0" Grid.Column="1"
+                              SelectedValue="{Binding AgvRequest.MissionState}"                                  
+                              ItemsSource="{Binding AgvMissionStateList}"
+                              IsEditable="False"
+                              IsReadOnly="True"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" 
+                           Text="{resx:Translate 'Agv Load'}"/>
+                <CheckBox Grid.Row="1" Grid.Column="1" 
+                              IsChecked="{Binding AgvRequest.AGV_Loaded}">
+                    <CheckBox.LayoutTransform>
+                        <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                    </CheckBox.LayoutTransform>
+                </CheckBox>
+            </Grid>
+        </GroupBox>
+
+    </DockPanel>
+</UserControl>

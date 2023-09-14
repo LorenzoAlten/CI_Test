@@ -1,0 +1,290 @@
+﻿<UserControl x:Class="WhsViewer.Views.LevelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WhsViewer.Views"
+             xmlns:custom="clr-namespace:WhsViewer"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:WhsViewer="clr-namespace:WhsViewer"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+            <VisualBrush x:Key="LineBrush" TileMode="Tile" Viewport="0,0,30,30" 
+                         ViewportUnits="Absolute" Viewbox="0,0,30,30" ViewboxUnits="Absolute">
+                <VisualBrush.Visual>
+                    <Canvas>
+                        <Path Stroke="{DynamicResource MaterialDesignBody}" StrokeThickness="0.1cm" Opacity=".3">
+                            <Path.Data>
+                                <LineGeometry StartPoint="0,0" EndPoint="30,30" />
+                            </Path.Data>
+                        </Path>
+                    </Canvas>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+                <Setter Property="Padding" Value="8" />
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <DockPanel>
+            <materialDesign:ColorZone DockPanel.Dock="Top" Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid" Grid.Row="1"
+                                      Panel.ZIndex="1">
+                <DockPanel>
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="{Binding FilterToggleButtonIsChecked}"
+                                          x:Name="FilterToggleButton">
+                    </ToggleButton>
+                    <TextBlock Text="{resx:Translate Warehouse area}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
+                </DockPanel>
+            </materialDesign:ColorZone>
+
+            <ContentControl Name="Filter"
+                                Width="200" DockPanel.Dock="Left" Margin="12 4"
+                                Visibility="{Binding ElementName=FilterToggleButton, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+            <Grid VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="400"/>
+                </Grid.ColumnDefinitions>
+
+                <DockPanel Grid.Column="0" Margin="5 10 5 0" >
+                    <ComboBox ItemsSource="{Binding OrientationTypes}" DockPanel.Dock="Top"
+                              SelectedItem="{Binding CellOrientation}"
+                              Visibility="Collapsed"/>
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Orientation="{Binding CellOrientation}">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                                    <TextBlock Text="{Binding CurrentAisleName}" Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       VerticalAlignment="Center" Margin="0 0 0 0"/>
+                                    <TextBlock Text=" - " Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       VerticalAlignment="Center" Margin="8 0 0 0"/>
+                                    <TextBlock Text="{resx:Translate Floor}" Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       VerticalAlignment="Center" Margin="8 0 0 0"/>
+                                    <TextBlock Text="{Binding CurrentLevel}" Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                       VerticalAlignment="Center" Margin="8 0 0 0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="{Binding CellOrientation}" 
+                                    HorizontalAlignment="Left">
+                                    <ItemsControl ItemsSource="{Binding CellsCollectionRack1}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="{Binding WarehouseOrientation}"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="{Binding CellOrientation}" Margin="2" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                                    <TextBlock Text="{Binding Path=X}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" MinWidth="15"
+                                                   Foreground="{StaticResource SecondaryHueMidBrush}" FontWeight="Bold"
+                                                   Visibility="{Binding Hide, Converter={StaticResource InvertBooleanToVisibilityConverter}}"/>
+                                                    <custom:CellControl Margin="2" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <Border Background="{StaticResource LineBrush}" Height="30"
+                                    Visibility="{Binding WarehouseVertical, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding CurrentAisleName}"
+                                       FontWeight="Bold" Background="{DynamicResource MaterialDesignPaper}"/>
+                                    </Border>
+                                    <Border Background="{StaticResource LineBrush}" Width="30"
+                                    Visibility="{Binding WarehouseHorizontal, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <TextBlock Text="{Binding CurrentAisleName}"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                           FontWeight="Bold" Background="{DynamicResource MaterialDesignPaper}">
+                                            <TextBlock.LayoutTransform>
+                                                <RotateTransform Angle="270" />
+                                            </TextBlock.LayoutTransform>
+                                        </TextBlock>
+                                    </Border>
+                                    <ItemsControl ItemsSource="{Binding CellsCollectionRack2}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="{Binding WarehouseOrientation}"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="{Binding CellOrientation}" Margin="2" 
+                                                VerticalAlignment="Top" HorizontalAlignment="Left">
+                                                    <custom:CellControl Margin="2" />
+                                                    <TextBlock Text="{Binding Path=X}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" MinWidth="15"
+                                                   Foreground="{StaticResource SecondaryHueMidBrush}" FontWeight="Bold"
+                                                   Visibility="{Binding Hide, Converter={StaticResource InvertBooleanToVisibilityConverter}}"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </StackPanel>
+                            <Control Height="40" Width="40"/>
+                            <ContentControl x:Name="Rack"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+
+                <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                              Panel.ZIndex="1">
+                    <GridSplitter.Template>
+                        <ControlTemplate TargetType="{x:Type GridSplitter}">
+                            <materialDesign:PackIcon Kind="DragVertical"
+                                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </ControlTemplate>
+                    </GridSplitter.Template>
+                </GridSplitter>
+
+                <materialDesign:Card Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                     materialDesign:ShadowAssist.ShadowEdges="Left"
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                     Foreground="{DynamicResource MaterialDesignBody}">
+                    <TabControl Grid.Row="1" Grid.Column="2" Margin="2" BorderThickness="0" Background="{DynamicResource MaterialDesignPaper}">
+                        <TabControl.Resources>
+                            <Style TargetType="TabItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="TabItem">
+                                            <Grid Name="Panel" Opacity=".5">
+                                                <ContentPresenter x:Name="ContentSite"
+                                                                      VerticalAlignment="Center"
+                                                                      HorizontalAlignment="Center"
+                                                                      Margin="0">
+                                                    <ContentPresenter.Content>
+                                                        <TextBlock Text="{TemplateBinding Header}" Padding="20 10"
+                                                                       FontWeight="Bold"
+                                                                       Foreground="{DynamicResource SecondaryHueMidBrush}" />
+                                                    </ContentPresenter.Content>
+                                                </ContentPresenter>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="Panel" Property="Opacity" Value="1.0"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TabControl.Resources>
+
+                        <TabItem Header="{resx:Translate Selection, Uppercase=True}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <ContentControl Name="Cell" Grid.Row="0" Margin="6"/>
+
+                                <ContentControl Name="Location" Grid.Row="1" Margin="6"/>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="{resx:Translate General, Uppercase=True}">
+                            <TabItem.Resources>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="Margin" Value="0 2"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Foreground" Value="{StaticResource MaterialDesignBody}"/>
+                                    <Setter Property="Visibility" Value="{Binding UserPerm, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                </Style>
+                            </TabItem.Resources>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                                <StackPanel Orientation="Vertical">
+
+                                    <ContentControl x:Name="Aisle" Margin="6"/>
+
+                                    <ContentControl x:Name="Floor" Margin="6"/>
+
+                                    <ContentControl x:Name="Bays" Margin="6"/>
+
+                                    <GroupBox materialDesign:ColorZoneAssist.Mode="Accent" Margin="6"
+                                                  Visibility="{Binding CanRequestMap, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <GroupBox.HeaderTemplate>
+                                            <DataTemplate>
+                                                <DataTemplate.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignSubtitle2TextBlock}">
+                                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                                        <Setter Property="Margin" Value="5 0" />
+                                                    </Style>
+                                                </DataTemplate.Resources>
+                                                <Grid DataContext="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type GroupBox}}}" Margin="0 2">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <TextBlock Text="{resx:Translate Commands, Uppercase=True}" FontWeight="Bold" Grid.Column="0" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GroupBox.HeaderTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" MinWidth="200" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Button Name="RequestMap"
+                                                        Grid.Row="0" Grid.Column="2" Padding="0" Margin="5 20"
+                                                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                        Style="{StaticResource MaterialDesignRaisedLightButton}"
+                                                        Width="150">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="MapMarkerOutline" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2 0"
+                                                                                 Width="24" Height="24"/>
+                                                    <TextBlock Text="{resx:Translate 'Request Map', Uppercase=True}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                   Foreground="{StaticResource PrimaryHueLightForegroundBrush}"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </Grid>
+                                    </GroupBox>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </TabItem>
+                    </TabControl>
+
+                </materialDesign:Card>
+
+                <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" Grid.RowSpan="3"
+                                         resx:SnackBarCustomProperties.SnackBarNotification="{Binding SnackBarMessage}"/>
+            </Grid>
+        </DockPanel>
+
+        <materialDesign:Card UniformCornerRadius="25" Width="50" Height="50" Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                             Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             VerticalAlignment="Center" HorizontalAlignment="Center">
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                     IsIndeterminate="True" Value="0" Width="40" Height="40"/>
+        </materialDesign:Card>
+    </Grid>
+</UserControl>

@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <BaseOutputPath>bin\</BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+    <PackageReference Include="SoapCore" Version="1.1.0.2" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.*" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.10.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="mSwAgilogDll">
+      <HintPath>..\..\..\..\..\..\..\mSw\mSwSCADA\V7.0.0\Bin\Dll\net7.0-windows\mSwAgilogDll.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllMFC">
+      <HintPath>..\..\..\..\..\..\..\mSw\mSwSCADA\V7.0.0\Bin\Dll\net7.0-windows\mSwDllMFC.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllUtils">
+      <HintPath>..\..\..\..\..\..\..\mSw\mSwSCADA\V7.0.0\Bin\Dll\net7.0-windows\mSwDllUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="mSwDllWPFUtils">
+      <HintPath>..\..\..\..\..\..\..\mSw\mSwSCADA\V7.0.0\Bin\Dll\net7.0-windows\mSwDllWPFUtils.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

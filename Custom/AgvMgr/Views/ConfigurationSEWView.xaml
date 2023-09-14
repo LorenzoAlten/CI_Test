@@ -1,0 +1,161 @@
+﻿<UserControl x:Class="AgvMgr.Views.ConfigurationSEWView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:agilogsew="clr-namespace:mSwAgilogDll.SEW;assembly=mSwAgilogDll"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:viewModel="clr-namespace:AgvMgr.ViewModels"
+             xmlns:agvconverters="clr-namespace:AgvMgr.Converters"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils" 
+             xmlns:view="clr-namespace:AgvMgr.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             d:DesignHeight="600" d:DesignWidth="1280" >
+    <UserControl.Resources>
+        <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        <agvconverters:MultiFlagToBooleanConverter x:Key="MultiFlagToBooleanConverter" />
+        <agvconverters:MultiConverterVisibilityAllEqual x:Key="MultiConverterVisibilityAllEqual" />
+        <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="Margin" Value="4" />
+        </Style>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="4" />
+        </Style>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignUserForegroundCheckBox}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10 0" />
+        </Style>
+    </UserControl.Resources>
+    <ContentControl>
+        <GroupBox Header="{Binding Code_Agv_Machine}" 
+                  IsEnabled="{Binding GroupBoxEnabled}"
+                  materialDesign:ColorZoneAssist.Mode="Accent">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock VerticalAlignment="Center" 
+                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                               Text="{Binding}" />
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <DockPanel>
+                <UniformGrid Columns="4" Grid.Row="5" Grid.Column="9"
+                             DockPanel.Dock="Bottom"
+                                 HorizontalAlignment="Right">
+                    <UniformGrid.Resources>
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatAccentButton}">
+                            <Setter Property="Padding" Value="0"/>
+                        </Style>
+                    </UniformGrid.Resources>
+                    <Button Name="Save" IsEnabled="{Binding IsEnabledSave}">
+                        <materialDesign:PackIcon Kind="ContentSave"/>
+                    </Button>
+
+                    <Button Name="Edit" IsEnabled="{Binding IsEnabled}">
+                        <materialDesign:PackIcon Kind="Pencil"/>
+                    </Button>
+
+                    <Button Name="Delete" IsEnabled="{Binding IsEnabled}">
+                        <materialDesign:PackIcon Kind="Delete"/>
+                    </Button>
+
+                    <Button Name="Cancel" IsEnabled="{Binding IsEnabledCancel}">
+                        <materialDesign:PackIcon Kind="UndoVariant"/>
+                    </Button>
+                </UniformGrid>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" MinWidth="150"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" MinWidth="150"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" MinWidth="150"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" MinWidth="150"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" MinWidth="150"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="AGV" Grid.Row="0" Grid.Column="0" 
+                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+
+                    <TextBlock Text="Codice:" Grid.Row="1" Grid.Column="0" />
+                    <TextBox Text="{Binding Code_Agv_Machine}"  Grid.Row="1" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}"/>
+
+                    <TextBlock Text="Indirizzo IP:" Grid.Row="1" Grid.Column="2" />
+                    <TextBox Text="{Binding CHL_IP_Agv}"  Grid.Row="1" Grid.Column="3" IsReadOnly="{Binding IsReadOnly}"/>
+
+                    <TextBlock Text="Porta:" Grid.Row="1" Grid.Column="4" />
+                    <TextBox Text="{Binding CHL_Port_Agv}"  Grid.Row="1" Grid.Column="5" IsReadOnly="{Binding IsReadOnly}"/>
+
+                    <TextBlock Text="Classe:" Grid.Row="1" Grid.Column="6" Visibility="{Binding Combination}" />
+                    <TextBox Text="{Binding CTR_Class_Agv}"  Grid.Row="1" Grid.Column="7" Visibility="{Binding Combination}" IsReadOnly="{Binding IsReadOnly}"/>
+
+                    <TextBlock Text="Numero:" Grid.Row="1" Grid.Column="8" />
+                    <TextBox Text="{Binding CTR_Number_Cradle}"  Grid.Row="1" Grid.Column="9" 
+                             IsReadOnly="{Binding IsReadOnly}"/>
+
+                    <TextBlock Text="CRADLE" Grid.Row="3" Grid.Column="0" Margin="0 10 0 0"
+                               Visibility="{Binding CradleVisible}"
+                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}" />
+
+                    <TextBlock Text="Indirizzo IP:" Grid.Row="4" Grid.Column="0" Visibility="{Binding CradleVisible}"/>
+                    <TextBox Text="{Binding CHL_IP_Cradle}"  Grid.Row="4" Grid.Column="1" IsReadOnly="{Binding IsReadOnly}" Visibility="{Binding CradleVisible}"/>
+
+                    <TextBlock Text="Porta Send:" Grid.Row="4" Grid.Column="2" Visibility="{Binding CradleVisible}"/>
+                    <TextBox Text="{Binding CHL_Port_Cradle_S}"  Grid.Row="4" Grid.Column="3" IsReadOnly="{Binding IsReadOnly}" Visibility="{Binding CradleVisible}"/>
+
+                    <TextBlock Text="Porta Receive:" Grid.Row="4" Grid.Column="4" Visibility="{Binding CradleVisible}"/>
+                    <TextBox Text="{Binding CHL_Port_Cradle_R}"  Grid.Row="4" Grid.Column="5" IsReadOnly="{Binding IsReadOnly}" Visibility="{Binding CradleVisible}"/>
+
+                    <TextBlock Text="Classe:" Grid.Row="4" Grid.Column="6" Visibility="{Binding CombinationCradle}"/>
+                    <TextBox Text="{Binding CTR_Class_Cradle}"  Grid.Row="4" Grid.Column="7" Visibility="{Binding CombinationCradle}" IsReadOnly="{Binding IsReadOnly}"/>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="5"
+                                Visibility="{Binding SimulatorVisible}">
+                    <TextBlock Text="Simulatore" />
+                    <CheckBox IsChecked="{Binding Simulator}" >
+                        <CheckBox.LayoutTransform>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                        </CheckBox.LayoutTransform>
+                    </CheckBox>
+                    </StackPanel>
+                </Grid>
+            </DockPanel>
+        </GroupBox>
+    </ContentControl>
+</UserControl>
+
+
+
+
+
+
+
+

@@ -1,0 +1,207 @@
+﻿<UserControl x:Class="SimulaRV.Views.AgvPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SimulaRV"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:agilogconverters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:cal="http://www.caliburnproject.org"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Height" Value="24" />
+                <Setter Property="Width" Value="24" />
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <DockPanel>
+            <materialDesign:ColorZone DockPanel.Dock="Top" Padding="16 10" materialDesign:ShadowAssist.ShadowDepth="Depth2" Mode="PrimaryMid"
+                                      Panel.ZIndex="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Name="DisplayName" Grid.ColumnSpan="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
+
+                    <Button Name="Send" Grid.Column="1"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" VerticalAlignment="Top">
+                        <materialDesign:PackIcon Kind="ArrowRight" Height="24" Width="24" />
+                    </Button>
+                    <Button Name="Clean" Grid.Column="2" Margin="16 0" Visibility="Collapsed"
+                            Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}">
+                        <materialDesign:PackIcon Kind="Broom" Height="24" Width="24" />
+                    </Button>
+                </Grid>
+            </materialDesign:ColorZone>
+
+            <Grid Margin="10">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Margin" Value="5"/>
+                        </Style>
+                        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                        </Style>
+                        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="Margin" Value="5"/>
+                        </Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedLightButton}">
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Focusable" Value="False" />
+                            <Setter Property="Height" Value="60"/>
+                            <Setter Property="Width" Value="75"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <Setter Property="Padding" Value="2" />
+                            <Setter Property="Width" Value="750" />
+                        </Style>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Telegramma" Grid.Row="0" Grid.Column="0" />
+                <ComboBox ItemsSource="{Binding TelegramTypes}" Grid.Row="0" Grid.Column="1"
+                          SelectedValuePath="Value" DisplayMemberPath="Description" SelectedValue="{Binding TelegramType}"/>
+
+                <TextBlock Text="MissionID" Grid.Row="0" Grid.Column="2" />
+                <TextBox Name="MissionID" Grid.Row="0" Grid.Column="3" />
+
+                <TextBlock Text="PingMillisec" Grid.Row="0" Grid.Column="6" />
+                <TextBox Name="PingMillisec" Grid.Row="0" Grid.Column="7" IsReadOnly="True" />
+
+                <Border Grid.Row="2" Grid.ColumnSpan="10" Background="{StaticResource SecondaryHueMidBrush}" Margin="0 10 0 0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Cradle" Grid.Column="0" Foreground="{StaticResource SecondaryHueMidForegroundBrush}" />
+                        <TextBlock Text="1" Grid.Column="1" Foreground="{StaticResource SecondaryHueMidForegroundBrush}" />
+
+                        <TextBlock Text="Udc Count" Grid.Column="3" Foreground="{StaticResource SecondaryHueMidForegroundBrush}" />
+                        <TextBox Name="UdcCount" Grid.Column="4" Foreground="{StaticResource SecondaryHueMidForegroundBrush}" MinWidth="80" />
+                    </Grid>
+                </Border>
+
+                <TextBlock Text="Command Res" Grid.Row="3" Grid.Column="0" />
+                <ComboBox ItemsSource="{Binding CommandResults}" Grid.Row="3" Grid.Column="1"
+                          SelectedValuePath="Value" DisplayMemberPath="Description" SelectedValue="{Binding CommandResult}"/>
+
+                <TextBlock Text="Location Type" Grid.Row="3" Grid.Column="2" />
+                <ComboBox ItemsSource="{Binding LocationTypes}" Grid.Row="3" Grid.Column="3"
+                          SelectedValuePath="Value" DisplayMemberPath="Description" SelectedValue="{Binding LocationType}"/>
+
+                <TextBlock Text="Rack" Grid.Row="3" Grid.Column="4" />
+                <TextBox Name="RackNum" Grid.Row="3" Grid.Column="5" />
+
+                <TextBlock Text="UDC_Barcode" Grid.Row="3" Grid.Column="6" />
+                <TextBox Name="UDCBarcode" Grid.Row="3" Grid.Column="7" />
+
+                <TextBlock Text="X" Grid.Row="4" Grid.Column="0" />
+                <TextBox Name="X" Grid.Row="4" Grid.Column="1" />
+
+                <TextBlock Text="Y" Grid.Row="4" Grid.Column="2" />
+                <TextBox Name="Y" Grid.Row="4" Grid.Column="3" />
+
+                <TextBlock Text="Z" Grid.Row="4" Grid.Column="4" />
+                <TextBox Name="Z" Grid.Row="4" Grid.Column="5" />
+
+                <TextBlock Text="W" Grid.Row="4" Grid.Column="6" />
+                <TextBox Name="W" Grid.Row="4" Grid.Column="7" />
+
+                <TextBlock Text="Quota X" Grid.Row="5" Grid.Column="0" />
+                <TextBox Name="QuotaX" Grid.Row="5" Grid.Column="1" />
+
+                <TextBlock Text="Quota Y" Grid.Row="5" Grid.Column="2" />
+                <TextBox Name="QuotaY" Grid.Row="5" Grid.Column="3" />
+
+                <TextBlock Text="Quota Z" Grid.Row="5" Grid.Column="4" />
+                <TextBox Name="QuotaZ" Grid.Row="5" Grid.Column="5" />
+
+                <TextBlock Text="Quota W" Grid.Row="5" Grid.Column="6" />
+                <TextBox Name="QuotaW" Grid.Row="5" Grid.Column="7" />
+
+                <Grid Grid.Row="6" Grid.ColumnSpan="10" Margin="0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" MinWidth="120" />
+                        <ColumnDefinition Width="Auto" MinWidth="100" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Variabile" Grid.Column="0" Foreground="{StaticResource SecondaryHueMidBrush}" />
+                    <ComboBox ItemsSource="{Binding PublicVariables}" Grid.Row="3" Grid.Column="1"
+                              SelectedValuePath="Value" DisplayMemberPath="Description" SelectedValue="{Binding SelVariable}"/>
+                    <TextBox Name="VariableValue" Grid.Column="2" />
+                    <Button Name="WriteVariable" Style="{StaticResource MaterialDesignRaisedAccentButton}" Grid.Column="3" Width="80" Content="SCRIVI" Margin="20,3,20,0" VerticalAlignment="Top" />
+
+                    <RadioButton Content="Traslo" Grid.Column="4" HorizontalAlignment="Left" Margin="43,13,0,0" VerticalAlignment="Top" IsChecked="{Binding IsTraslo}" FontWeight="Bold" />
+                    <RadioButton Content="Shuttle" Grid.Column="4" HorizontalAlignment="Left" Margin="122,13,0,0" VerticalAlignment="Top" IsChecked="{Binding IsShuttle}" FontWeight="Bold" />
+                </Grid>
+
+                <TextBlock Text="Ricevuti:" Grid.Row="7" Grid.Column="0" />
+                <ListBox ItemsSource="{Binding ReceivedTelegrams}" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="10"
+                         Margin="5" BorderThickness="1" BorderBrush="Black">
+                </ListBox>
+            </Grid>
+        </DockPanel>
+
+        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" Width="40" Height="40" Background="White" Opacity="0.7"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

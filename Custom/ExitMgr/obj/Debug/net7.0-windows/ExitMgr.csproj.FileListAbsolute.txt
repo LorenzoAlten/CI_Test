@@ -1,0 +1,5 @@
+D:\Errevi\Sodico\Agilog\App\Src\Custom\ExitMgr\obj\Debug\net7.0-windows\ExitMgr.csproj.AssemblyReference.cache
+D:\Errevi\Sodico\Agilog\App\Src\Custom\ExitMgr\obj\Debug\net7.0-windows\App.g.cs
+D:\Errevi\Sodico\Agilog\App\Src\Custom\ExitMgr\obj\Debug\net7.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Errevi\Sodico\Agilog\App\Src\Custom\ExitMgr\obj\Debug\net7.0-windows\ExitMgr_MarkupCompile.cache
+D:\Errevi\Sodico\Agilog\App\Src\Custom\ExitMgr\obj\Debug\net7.0-windows\ExitMgr_MarkupCompile.lref

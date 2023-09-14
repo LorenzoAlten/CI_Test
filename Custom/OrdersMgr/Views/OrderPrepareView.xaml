@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="OrdersMgr.Views.OrderPrepareView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:OrdersMgr.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:cal="http://www.caliburnproject.org"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="240" d:DesignWidth="320">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CommandButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+                <Setter Property="Height" Value="50"/>
+                <Setter Property="MinWidth" Value="200"/>
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Margin" Value="5" />
+            </Style>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Name="DisplayName" Text="{resx:Translate 'Order preparation'}"
+                   Margin="0 5"
+                   DockPanel.Dock="Top" HorizontalAlignment="Center"
+                   Style="{StaticResource MaterialDesignTitleTextBlock}"/>
+
+            <Grid Grid.Row="1" Margin="5" Visibility="{Binding OperationDone, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <materialDesign:PackIcon Kind="MapMarkerMultiple" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5"
+                                         Height="24" Visibility="{Binding CanLaunch, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                <materialDesign:PackIcon Kind="BlockHelper" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5"
+                                         Height="24" Foreground="Red" Visibility="{Binding CanLaunch, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
+
+                <TextBlock Name="RetVal" TextWrapping="Wrap" Grid.Column="1" VerticalAlignment="Center" />
+            </Grid>
+
+            <Grid Grid.Row="2" Margin="5" Visibility="{Binding CanLaunch, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Margin="5" Text="{resx:Translate 'Link your order to the following customer', Suffix=:}" FontWeight="Bold" />
+
+                <ComboBox Grid.Row="1"
+                        Text="{Binding CustomerName}" IsReadOnly="True"
+                        ItemsSource="{Binding CustomersList}"
+                        SelectedValue="{Binding CustomerCode}"
+                        SelectedValuePath="BPA_Code" materialDesign:HintAssist.Hint="{resx:Translate 'Click to choose a customer'}"
+                        cal:Message.Attach="[Event PreviewMouseDown] = [Action SelectCustomer()]">
+                        <ComboBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </ComboBox.ItemsPanel>
+                </ComboBox>
+            </Grid>
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Name="Launch" IsEnabled="{Binding CanLaunch}"
+                        HorizontalAlignment="Center" Margin="0 10"
+                        Content="{resx:Translate 'Continue', Uppercase=True}"
+                        Style="{StaticResource MaterialDesignFlatAccentBgButton}"/>
+
+                <Button Name="TryClose" Grid.Column="1"
+                        HorizontalAlignment="Center" Margin="0 10"
+                        Content="{resx:Translate 'Cancel', Uppercase=True}"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"/>
+            </Grid>
+
+        </Grid>
+
+        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" Width="40" Height="40" Background="White" Opacity="0.7"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

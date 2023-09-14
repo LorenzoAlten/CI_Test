@@ -1,0 +1,190 @@
+﻿<UserControl x:Class="WasteMgr.Views.WasteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WasteMgr.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:custom="clr-namespace:AgilogDll;assembly=AgilogDll"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="Roboto"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1024"
+             Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" True="Visible" False="Collapsed" />
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignBody2TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10 2" />
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontStretch" Value="Normal"/>
+        </Style>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
+        <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+            <Setter Property="Margin" Value="12 6 12 4" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+    </UserControl.Resources>
+
+    <custom:DpiDecorator>
+        <Grid>
+            <GroupBox Grid.Column="1" materialDesign:ColorZoneAssist.Mode="Accent">
+                <GroupBox.Header>
+                    <TextBlock Text="{resx:Translate 'Details', Uppercase=True}"  Style="{StaticResource MaterialDesignSubtitle2TextBlock}" Margin="8"
+                                   Foreground="{DynamicResource SecondaryHueMidForegroundBrush}"/>
+                </GroupBox.Header>
+                <DockPanel>
+                    <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" DockPanel.Dock="Bottom"/>
+
+                    <!--<Button Content="{resx:Translate 'Reject', Uppercase=True}" Name="Reject"
+                        DockPanel.Dock="Bottom" FontSize="40"
+                        Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                        HorizontalAlignment="Stretch" MinHeight="150" MaxWidth="400" Margin="10" IsEnabled="{Binding IsEnabledReject}"/>-->
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Margin="0 8 0 4" Padding="8" BorderThickness="5" BorderBrush="{StaticResource SecondaryHueMidBrush}"
+                                             materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{resx:Translate 'Udc code', Uppercase=True}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Udc.UDC_Code}" />
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{resx:Translate 'Weight', Uppercase=True}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Udc.UDC_Weight_Real, StringFormat=N0, ConverterCulture=IT}"/>
+
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{resx:Translate 'Pallet Layers', Uppercase=True}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Item.ITM_PalletLayers}"/>
+
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{resx:Translate 'Box per layer', Uppercase=True}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Item.ITM_BoxPerLayer}"/>
+
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{resx:Translate 'Item Code', Uppercase=True}"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="2" Text="{Binding Item.ITM_SubCode}" />
+
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{resx:Translate 'Item Description', Uppercase=True}"/>
+                                    <TextBlock Grid.Row="5" Grid.Column="2" Text="{Binding Item.ITM_Desc}" />
+
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Text="{resx:Translate 'X (mm)', Uppercase=True}"/>
+                                    <TextBlock Grid.Row="6" Grid.Column="2" Text="{Binding Item.ITM_SizeX}"/>
+
+                                    <TextBlock Grid.Row="7" Grid.Column="0" Text="{resx:Translate 'Y (mm)', Uppercase=True}"/>
+                                    <TextBlock Grid.Row="7" Grid.Column="2" Text="{Binding Item.ITM_SizeY}"/>
+
+                                    <TextBlock Grid.Row="8" Grid.Column="0" Text="{resx:Translate 'Z (mm)', Uppercase=True}"/>
+                                    <TextBlock Grid.Row="8" Grid.Column="2" Text="{Binding Item.ITM_SizeZ}"/>
+                                </Grid>
+                            </ScrollViewer>
+                        </Border>
+
+                        <ScrollViewer Grid.Column="1" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                            <Grid HorizontalAlignment="Center" Grid.Column="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <materialDesign:Card Grid.Row="0" Background="DarkRed"
+                                     Width="700" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                     Margin="0 8 0 4" Padding="8"
+                                     materialDesign:ShadowAssist.ShadowDepth="Depth1"
+                                     Visibility="{Binding ShapeControlVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <DockPanel>
+                                        <Grid Margin="0 4">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+
+                                            <TextBlock Grid.Row="0" 
+                                                           Text="{Binding HeightClass.HGT_Desc}"
+                                                           Visibility="{Binding HeightClass.HGT_Waste, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                            <TextBlock Grid.Row="1"
+                                                           Text="{Binding WidthClass.WDT_Desc}"
+                                                           Visibility="{Binding WidthClass.WDT_Waste, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                            <TextBlock Grid.Row="2"
+                                                           Text="{Binding LengthClass.LNG_Desc}"
+                                                           Visibility="{Binding LengthClass.LNG_Waste, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                            <TextBlock Grid.Row="3"
+                                                           Text="{Binding WeightClass.WGH_Desc}"
+                                                           Visibility="{Binding WeightClass.WGH_Waste, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                            <TextBlock Grid.Row="4"
+                                                           Text="{resx:Translate 'Etichetta non leggibile', Uppercase=True}"
+                                                           Visibility="{Binding BarcodeError, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                            <TextBlock Grid.Row="5"
+                                                           Text="{resx:Translate 'Etichetta non riconosciuta', Uppercase=True}"
+                                                           Visibility="{Binding NotExist, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                            <TextBlock Grid.Row="6"
+                                                           Text="{resx:Translate 'Barcode troppo lungo', Uppercase=True}"
+                                                           Visibility="{Binding BarcodeLength, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+                                            <TextBlock Grid.Row="7"
+                                                           Text="{resx:Translate 'Etichetta duplicata', Uppercase=True}"
+                                                           Visibility="{Binding Duplicated, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        </Grid>
+                                    </DockPanel>
+                                </materialDesign:Card>
+
+                                <Image Source="{Binding PalletImage}" Stretch="UniformToFill" Grid.Row="1" Grid.Column="0">
+                                    <Image.LayoutTransform>
+                                        <ScaleTransform ScaleX="0.4" ScaleY="0.4"/>
+                                    </Image.LayoutTransform>
+                                </Image>
+                            </Grid>
+                        </ScrollViewer>
+                    </Grid>
+                </DockPanel>
+            </GroupBox>
+        </Grid>
+    </custom:DpiDecorator>
+</UserControl>

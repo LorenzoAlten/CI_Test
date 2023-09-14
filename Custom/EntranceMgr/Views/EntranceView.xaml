@@ -1,0 +1,233 @@
+﻿<UserControl x:Class="EntranceMgr.Views.EntranceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EntranceMgr.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils"
+             xmlns:localConverters="clr-namespace:EntranceMgr.Converters"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1280">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+                <Setter Property="Margin" Value="12 2" />
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignTextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="FontWeight" Value="Medium"/>
+                <Setter Property="Margin" Value="0 2" />
+            </Style>
+            <Style TargetType="materialDesign:PackIcon">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignGroupBox}">
+                <Setter Property="Margin" Value="0 8 0 0" />
+                <Setter Property="Padding" Value="8 4" />
+                <Setter Property="Width" Value="700" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+            <Style TargetType="resx:AutoCompleteTextBox" BasedOn="{StaticResource MaterialDesignTextBox}">
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="4 8" />
+            </Style>
+            <Style TargetType="Grid" x:Key="SelectedItem">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <SolidColorBrush Color="{DynamicResource Primary100}" Opacity="0.5"/>
+                            </Setter.Value>
+                        </Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <resx:InvertBoolConverter x:Key="invertBoolConverter"/>
+            <resx:DecimalConverter x:Key="decimalConverter" Decimals="3"/>
+            <resx:DecimalConverter x:Key="intConverter" Decimals="0"/>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <converters:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" 
+                                                     True="Collapsed" 
+                                                     False="Visible" />
+            <localConverters:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <materialDesign:PackIcon Kind="BoxVariant" Panel.ZIndex="-1"
+                                 VerticalAlignment="Bottom" HorizontalAlignment="Right"
+                                 Width="256" Height="256" Foreground="{StaticResource SecondaryHueMidBrush}"
+                                 Opacity=".3"/>
+
+        <DockPanel>
+            <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" DockPanel.Dock="Bottom"
+                                     resx:SnackBarCustomProperties.SnackBarNotification="{Binding SnackBarMessage}"/>
+
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center">
+                <Button Name="ToWarehouse" Style="{StaticResource CommandButtonStyle}" HorizontalAlignment="Center"                       
+                        Visibility="{Binding Presenza, Converter={StaticResource BooleanToVisibilityConverter}}"         
+                        Opacity="{Binding IsToWarehouse, Converter={StaticResource  BooleanToOpacityConverter}}"                       
+                        Content="{resx:Translate 'To Warehouse', Uppercase=True}" />
+                <Button Name="Transit" Style="{StaticResource CommandButtonStyle}" HorizontalAlignment="Center"
+                        Visibility="{Binding Presenza, Converter={StaticResource BooleanToVisibilityConverter}}"   
+                        Opacity="{Binding IsTransit, Converter={StaticResource BooleanToOpacityConverter}}"    
+                        Content="{resx:Translate 'Only transit', Uppercase=True}" />
+                <Button Name="Confirm" Style="{StaticResource CommandButtonStyle}" HorizontalAlignment="Center"
+                        Visibility="{Binding Presenza, Converter={StaticResource BooleanToVisibilityConverter}}" 
+                        Content="{resx:Translate 'Confirm', Uppercase=True}" />
+            </StackPanel>
+            <Grid HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <materialDesign:Card Grid.Column="1" 
+                     Visibility="{Binding Presenza, Converter={StaticResource BooleanToVisibilityConverter}}"                
+                                     >
+                    <materialDesign:ColorZone Mode="PrimaryLight" Padding="15 10">
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="25"/>
+                                <RowDefinition Height="Auto" MinHeight="35"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{resx:Translate 'Scan the barcode of the load unit', Uppercase=True}"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           HorizontalAlignment="Center"/>
+                            <materialDesign:ColorZone Grid.Row="1" Padding="2"
+                                              Background="White" Foreground="Black"
+                                              materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                                <DockPanel>
+                                    <materialDesign:PackIcon Kind="Barcode" DockPanel.Dock="Left"
+                                                     Height="30" Width="30" Margin="10 0 5 0"/>
+                                    <TextBox Name="txtUDCBarcode" TabIndex="0"
+                                             Text="{Binding UDCBarcode}"
+                                             FontSize="20"
+                                             BorderThickness="0"
+                                             HorizontalContentAlignment="Center">
+                                        <i:Interaction.Behaviors>
+                                            <resx:TextBoxEnterKeyUpdateBehavior/>
+                                            <resx:TextBoxOnFocusSelectAllBehavior/>
+                                        </i:Interaction.Behaviors>
+                                    </TextBox>
+                                </DockPanel>
+                            </materialDesign:ColorZone>
+                        </Grid>
+                    </materialDesign:ColorZone>
+                </materialDesign:Card>
+
+                <materialDesign:Card Grid.Column="1" Grid.Row="1" Margin="0 4"
+                                      Visibility="{Binding Presenza, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                     >
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid DataContext="{Binding CompartmentDTO}" Margin="8,4,8,4" Grid.Row="0" Grid.ColumnSpan="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="35"/>
+                                <RowDefinition Height="Auto" MinHeight="35"/>
+                                <!--<RowDefinition Height="Auto" MinHeight="35"/>-->
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" 
+                                       Text="{resx:Translate 'Codice ordine', Uppercase=True}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1"
+                                     Text="{Binding OrderCode, Mode=OneWay}" IsReadOnly="True" />
+                            <TextBlock Grid.Row="1" Grid.Column="0" 
+                                       Text="{resx:Translate 'Numero Ordine Cliente:', Uppercase=True}" />
+                            <TextBox Grid.Row="1" Grid.Column="1"
+                                     Text="{Binding CustomerOrderNr, Mode=OneWay}" IsReadOnly="True" />
+
+                            <!--<TextBlock Grid.Row="2" Grid.Column="0" 
+                                       Text="{resx:Translate 'Causale ordine:', Uppercase=True}" />
+                            <TextBox Grid.Row="2" Grid.Column="1"
+                                     Text="{Binding OrderCausal, Mode=OneWay}" IsReadOnly="True" />-->
+
+                        </Grid>
+                        <materialDesign:ColorZone Mode="Accent" Padding="12 10" Grid.ColumnSpan="5" VerticalAlignment="Center" Grid.Row="1">
+                            <TextBlock VerticalAlignment="Center"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       Text="{resx:Translate 'Pallet Content', Uppercase=True}" />
+                        </materialDesign:ColorZone>
+
+                        <DataGrid ItemsSource="{Binding CompartmentDTO}" 
+                          AutoGenerateColumns="False" Grid.Row="3" 
+                          IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False"
+                          VerticalScrollBarVisibility="Auto">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="{resx:Translate Item, Uppercase=True}" 
+                                    Binding="{Binding ItemCode}" Width="Auto" MinWidth="100"/>
+                                <DataGridTextColumn Header="{resx:Translate Proprietario, Uppercase=True}" 
+                                    Binding="{Binding ItemOwner}" Width="Auto" MinWidth="100"/>
+                                <DataGridTextColumn Header="{resx:Translate Description, Uppercase=True}"
+                                    Binding="{Binding ItemDescription}" Width="*"/>
+                                <DataGridTextColumn Header="{resx:Translate NrScomparto, Uppercase=True}"
+                                    Binding="{Binding CompartmentNr}" Width="*"/>
+                                <DataGridTextColumn Header="{resx:Translate Quantity, Uppercase=True}"
+                                    Binding="{Binding ItemStock}" Width="*"/>
+                                <DataGridTextColumn Header="{resx:Translate Batch, Uppercase=True}"
+                                    Binding="{Binding ItemBatch}" Width="*"/>
+                                <DataGridTextColumn Header="{resx:Translate Expiration date, Uppercase=True}"
+                                    Binding="{Binding ItemExpirationDate,StringFormat=\{0:dd/MM/yyyy\}}" Width="*"/>
+                                <!--<DataGridTextColumn Header="{resx:Translate Riga ordine, Uppercase=True}"
+                                    Binding="{Binding OrderLine}" Width="*"/>-->
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </materialDesign:Card>
+                <materialDesign:Card HorizontalAlignment="Center" VerticalAlignment="Center"
+                                     Grid.Column="1" Grid.RowSpan="2"
+                                     Visibility="{Binding WaitingUDC, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <materialDesign:ColorZone Mode="PrimaryLight" Padding="15 10">
+                        <Grid Width="500">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="25"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Text="{resx:Translate 'Waiting for UDC', Uppercase=True, Suffix='...'}"
+                                       HorizontalAlignment="Center"/>
+                        </Grid>
+                    </materialDesign:ColorZone>
+                </materialDesign:Card>
+
+            </Grid>
+        </DockPanel>
+
+        <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" Width="40" Height="40" Background="White" Opacity="0.7"
+                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+    </Grid>
+</UserControl>

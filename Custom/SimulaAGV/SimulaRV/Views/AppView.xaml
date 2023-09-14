@@ -1,0 +1,156 @@
+﻿<Window      x:Class="SimulaRV.Views.AppView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:SimulaRV.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:cal="http://www.caliburnproject.org"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+
+    <DockPanel>
+
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <ItemsControl Grid.Column="0" ItemsSource="{Binding ManagerCollection}" Margin="5 0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="{Binding Path=Name}" />
+                                <agilog:TrafficManagerStateIcon Margin="5,0" />
+                                <TextBlock Text=":" Margin="0,0,5,0" />
+                                <ItemsControl ItemsSource="{Binding ControllerCollection}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal" Margin="0,0,5,0">
+                                                <TextBlock Text="{Binding Path=Desc}" />
+                                                <agilog:TrafficControllerStateIcon Margin="5,0" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                            <Rectangle Fill="#333333" Width="1" Margin="0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl Grid.Column="1" ItemsSource="{Binding GenericManagerCollection}" Margin="5 0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="{Binding Path=Name}" />
+                                <agilog:TrafficManagerStateIcon Margin="5,0" />
+                            </StackPanel>
+                            <Rectangle Fill="#333333" Width="1" Margin="0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <Button Name="Reset" Style="{StaticResource MaterialDesignFloatingActionMiniDarkButton}"
+                    Height="20" Width="20" Margin="-5" Grid.Column="2">
+                <materialDesign:PackIcon Kind="Refresh" Height="16" Width="16" />
+            </Button>
+
+            <TextBlock Text="{Binding Path=Now, StringFormat=dd/MM/yy HH:mm:ss}" Grid.Column="4" Margin="10 5" Visibility="Collapsed" />
+        </Grid>
+        <Separator DockPanel.Dock="Bottom" Margin="5 0"/>
+        
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ItemsControl Grid.Column="0" ItemsSource="{Binding ScbCollection}" Margin="5 0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="{Binding Path=Name}" />
+                                <agilog:TrafficControllerStateIcon Margin="5,0" />
+                            </StackPanel>
+                            <Rectangle Fill="#333333" Width="1" Margin="0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+        <Separator DockPanel.Dock="Bottom" Margin="5 0"/>
+
+        <Grid>
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top" >
+                    <ComboBox DockPanel.Dock="Right"
+                              ItemsSource="{Binding ControllerCollection}"
+                              SelectedValue="{Binding SelectedController}"
+                              DisplayMemberPath="{Binding Desc}"
+                              MinWidth="150" Margin="12 0"/>
+
+                    <ListView ItemsSource="{Binding Screens}"
+                          SelectedItem="{Binding ActiveItem}">
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayName}"
+                                           Margin="16 8" Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           cal:Message.Attach="[Event MouseLeftButtonDown] = [ActivateItem($dataContext)]"/>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
+
+                <ContentControl x:Name="ActiveItem" />
+            </DockPanel>
+
+            <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                         Value="0" Width="40" Height="40" Background="White" Opacity="0.7"
+                         VerticalAlignment="Center" HorizontalAlignment="Center"
+                         IsIndeterminate="True"
+                         Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        </Grid>
+    </DockPanel>
+</Window>

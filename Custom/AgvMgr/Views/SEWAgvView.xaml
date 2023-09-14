@@ -1,0 +1,396 @@
+﻿<UserControl x:Class="AgvMgr.Views.SEWAgvView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:agilogsew="clr-namespace:mSwAgilogDll.SEW;assembly=mSwAgilogDll"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils" 
+             xmlns:agvconverters="clr-namespace:AgvMgr.Converters"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:view="clr-namespace:AgvMgr.Views"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}"
+             d:DesignHeight="600" d:DesignWidth="1280" >
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="agilog:AGV_Enabling_Mode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        <agvconverters:MultiFlagToBooleanConverter x:Key="MultiFlagToBooleanConverter" />
+        <agvconverters:MultiFlagToVisibilityConverter x:Key="MultiFlagToVisibilityConverter" />
+        <agvconverters:MultiConverterVisibilityAllEqual x:Key="MultiConverterVisibilityAllEqual" />
+        <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource MaterialDesignCardGroupBox}">
+            <!--<Setter Property="Margin" Value="12 4" />-->
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+        </Style>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MaterialDesignTextBox}">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignTextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <!--<Setter Property="Margin" Value="10 5" />-->
+        </Style>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignUserForegroundCheckBox}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="10 5" />
+        </Style>
+    </UserControl.Resources>
+    <GroupBox Header="{Binding Agv.AGV_Code}"
+              Padding="0"
+                  materialDesign:ColorZoneAssist.Mode="Accent">
+        <GroupBox.HeaderTemplate>
+            <DataTemplate>
+                <TextBlock VerticalAlignment="Center" Margin="12 8"
+                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                               Text="{Binding}" />
+            </DataTemplate>
+        </GroupBox.HeaderTemplate>
+        <StackPanel Orientation="Vertical" Margin="0 4 0 0">
+            <Grid Margin="10 0">
+                <DockPanel LastChildFill="False">
+                    <DockPanel.Resources>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Orientation" Value="Horizontal"/>
+                            <Setter Property="MinWidth" Value="200"/>
+                        </Style>
+                    </DockPanel.Resources>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Stato', Suffix=':', Uppercase=True}" Grid.Row="0" Grid.Column="0" />
+                        <TextBlock Text="{Binding Agv.AgvRequest.State}" Grid.Row="0" Grid.Column="1"
+                           Margin="5 0" Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                           VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Part Data', Suffix=':', Uppercase=True}" Grid.Row="0" Grid.Column="3" />
+                        <TextBlock Text="{Binding Agv.Part_data}"  Grid.Row="0" Grid.Column="4"
+                           Margin="5 0" Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                           VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Station', Suffix=':', Uppercase=True}" Grid.Row="0" Grid.Column="5" />
+                        <TextBlock Text="{Binding Agv.Station}"  Grid.Row="0" Grid.Column="6"
+                           Margin="5 0" Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                           VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Stato AGV', Suffix=':', Uppercase=True}" />
+                        <TextBlock Text="{Binding Agv.Agv_State}" Margin="5 0" MinWidth="250"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Stop Reason', Suffix=':', Uppercase=True}"/>
+                        <TextBlock Text="{Binding Agv.Stop_Reason}" Margin="5 0"
+                                   Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel DockPanel.Dock="Right">
+                        <TextBlock Text="{resx:Translate 'Pallet loaded', Suffix=':', Uppercase=True}" />
+                        <TextBlock Text="{Binding Agv.AgvRequest.AGV_NumPallet}"
+                           Margin="5 0" Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                           VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DockPanel>
+
+                <Button Padding="5 0" Style="{StaticResource MaterialDesignRaisedAccentButton}" 
+                        cal:Message.Attach="Alarm" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="3"
+                        ToolTip="{resx:Translate 'Alarms'}">
+                    <Button.IsEnabled>
+                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                            <Binding Path="Agv.AgvRequest.State"/>
+                            <Binding Source="{x:Static agilog:State_Flags.Alarm}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </Button.IsEnabled>
+                    <materialDesign:PackIcon Kind="Warning"
+                                             Height="24" Width="24"/>
+                </Button>
+            </Grid>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox Content="{resx:Translate 'Ready', Uppercase=True}" IsHitTestVisible="False" Focusable="False">
+                    <CheckBox.IsChecked>
+                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                            <Binding Path="Agv.Agv_State"/>
+                            <Binding Source="{x:Static agilogsew:SEW_State_Flags.Ready}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </CheckBox.IsChecked>
+                </CheckBox>
+                <CheckBox Content="{resx:Translate 'Running', Uppercase=True}" IsHitTestVisible="False">
+                    <CheckBox.IsChecked>
+                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                            <Binding Path="Agv.Agv_State"/>
+                            <Binding Source="{x:Static agilogsew:SEW_State_Flags.Running}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </CheckBox.IsChecked>
+                </CheckBox>
+                <CheckBox Content="{resx:Translate 'Error', Uppercase=True}" IsHitTestVisible="False">
+                    <CheckBox.IsChecked>
+                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                            <Binding Path="Agv.Agv_State"/>
+                            <Binding Source="{x:Static agilogsew:SEW_State_Flags.Error}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </CheckBox.IsChecked>
+                </CheckBox>
+                <CheckBox Content="{resx:Translate 'Warning', Uppercase=True}" IsHitTestVisible="False">
+                    <CheckBox.IsChecked>
+                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                            <Binding Path="Agv.Agv_State"/>
+                            <Binding Source="{x:Static agilogsew:SEW_State_Flags.Warning}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </CheckBox.IsChecked>
+                </CheckBox>
+                <CheckBox Content="{resx:Translate 'Forward', Uppercase=True}" IsHitTestVisible="False">
+                    <CheckBox.IsChecked>
+                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                            <Binding Path="Agv.Agv_State"/>
+                            <Binding Source="{x:Static agilogsew:SEW_State_Flags.Direction_forward}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </CheckBox.IsChecked>
+                </CheckBox>
+                <CheckBox Content="{resx:Translate 'Battery charging', Uppercase=True}" IsHitTestVisible="False">
+                    <CheckBox.IsChecked>
+                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                            <Binding Path="Agv.Agv_State"/>
+                            <Binding Source="{x:Static agilogsew:SEW_State_Flags.Battery_charging}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </CheckBox.IsChecked>
+                </CheckBox>
+                <CheckBox Content="{resx:Translate 'Charging required', Uppercase=True}" IsHitTestVisible="False">
+                    <CheckBox.IsChecked>
+                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                            <Binding Path="Agv.Agv_State"/>
+                            <Binding Source="{x:Static agilogsew:SEW_State_Flags.Battery_charging_required}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </CheckBox.IsChecked>
+                </CheckBox>
+                <CheckBox Content="{resx:Translate 'Simulation', Uppercase=True}" IsHitTestVisible="False">
+                    <CheckBox.IsChecked>
+                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                            <Binding Path="Agv.Agv_State"/>
+                            <Binding Source="{x:Static agilogsew:SEW_State_Flags.Simulation}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </CheckBox.IsChecked>
+                </CheckBox>
+            </StackPanel>
+            <materialDesign:ColorZone Mode="PrimaryDark" VerticalAlignment="Center" Padding="4">
+                <DockPanel LastChildFill="False">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{resx:Translate 'Mission', Uppercase=True}"
+                                   Margin="10 0"/>
+                        <materialDesign:Card Width="200" Background="{DynamicResource PrimaryHueLightBrush}" Foreground="{DynamicResource PrimaryHueLightForegroundBrush}" 
+                                            VerticalAlignment="Center">
+                            <TextBlock Text="{Binding Agv.AgvRequest.AGV_Mission}" HorizontalAlignment="Center"/>
+                        </materialDesign:Card>
+                        <materialDesign:PackIcon Kind="ArrowRightBoldOutline" VerticalAlignment="Center" Padding="0" Margin="10 0 0 0"/>
+                        <TextBlock Text="{Binding Agv.AgvRequest.MissionState}" Width="200" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <materialDesign:PackIcon Kind="Fullscreen" Height="{Binding RelativeSource={RelativeSource AncestorType=StackPanel}, Path=ActualHeight}" 
+                                                         Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"
+                                                         Margin="0 0 10 0" Visibility="{Binding Agv.AgvRequest.AGV_Loaded, Converter={StaticResource InverseBoolToVisConverter}}"/>
+                        <materialDesign:PackIcon Kind="CubeScan" Height="{Binding RelativeSource={RelativeSource AncestorType=DockPanel}, Path=ActualHeight}" 
+                                                         Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}"
+                                                         Margin="0 0 10 0" Visibility="{Binding Agv.AgvRequest.AGV_Loaded, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                cal:Message.Attach="EditMission" Padding="5 0"
+                                ToolTip="{resx:Translate 'Edit mission'}">
+                            <materialDesign:PackIcon Kind="Edit"
+                                                     Height="24" Width="24"/>
+                        </Button>
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                cal:Message.Attach="OpenCradles" Padding="5 0" Margin="5 0"
+                                ToolTip="{resx:Translate 'Track UDC'}">
+                            <materialDesign:PackIcon Kind="BorderAll"
+                                                     Height="24" Width="24"/>
+                        </Button>
+                        <Button Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" 
+                                DockPanel.Dock="Right"
+                                Height="24" Width="24"
+                                cal:Message.Attach="AdditionalData">
+                            <materialDesign:PackIcon Kind="AboutVariant"
+                                                     Height="24" Width="24"/>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="5"
+                                                    Name="Continue" Content="CONTINUE"/>
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="0 5 50 5"
+                                                    Name="SetSingleTrack" Content="SINGLE TRACK"/>
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="5"
+                                                    Name="Start" Content="START"/>
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin=" 0 5"
+                                                    Name="Stop" Content="STOP"/>
+                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="50 5 0 5"
+                                                    Name="AlarmReset" Content="RESET"/>
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:ColorZone>
+            <StackPanel Orientation="Vertical" Margin="10 5">
+                <StackPanel.Resources>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Orientation" Value="Horizontal"/>
+                        <Setter Property="MinWidth" Value="200"/>
+                    </Style>
+                </StackPanel.Resources>
+                <DockPanel>
+
+                </DockPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Transponder', Suffix=':', Uppercase=True}" />
+                        <TextBlock Text="{Binding Agv.Transponder}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'VTrack', Suffix=':', Uppercase=True}"/>
+                        <TextBlock Text="{Binding Agv.Virtual_track_ID}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Single Track', Suffix=':', Uppercase=True}"/>
+                        <TextBlock Text="{Binding Agv.Single_tracks}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Single Track Assigned', Suffix=':', Uppercase=True}"/>
+                        <TextBlock Text="{Binding Agv.AgvRequest.AGV_Zone}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Travel Mode', Suffix=':', Uppercase=True}"/>
+                        <TextBlock Text="{Binding Agv.TravelMode}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Area', Suffix=':', Uppercase=True}"/>
+                        <TextBlock Text="{Binding Agv.Area_ID}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                   VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'x', Suffix=':', Uppercase=True}" />
+                        <TextBlock Text="{Binding Agv.Absolute_X}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'y', Suffix=':', Uppercase=True}" />
+                        <TextBlock Text="{Binding Agv.Absolute_Y}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}" 
+                                       VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Angle', Suffix=':', Uppercase=True}" />
+                        <TextBlock Text="{Binding Agv.Angle}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Transponder Distance', Suffix=':', Uppercase=True}"/>
+                        <TextBlock Text="{Binding Agv.DistanceToTransponder}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Speed', Suffix=':', Uppercase=True}" />
+                        <TextBlock Text="{Binding Agv.Speed}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Power', Suffix=':', Uppercase=True}" />
+                        <TextBlock Text="{Binding Agv.Power}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="{resx:Translate 'Energy', Suffix=':', Uppercase=True}" />
+                        <TextBlock Text="{Binding Agv.Energy_level}" Margin="5 0"
+                                       Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                       VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+                <DockPanel>
+                    <StackPanel Orientation="Vertical">
+                        <DockPanel LastChildFill="False">
+                            <StackPanel Orientation="Horizontal">
+                                <DockPanel IsEnabled="{Binding Agv.AgvRequest.ModifyAllowed_Enabling_Mode}">
+                                    <TextBlock  Margin="0 0 10 0" Padding="0"  VerticalAlignment="Center" 
+                                                            Text="{resx:Translate 'Modalità AGV', Suffix=':', Uppercase=True}"/>
+                                    <ComboBox Width="150" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"
+                                                          SelectedValue="{Binding Agv.AgvRequest.SelectedEnabling_Mode}" 
+                                                          cal:Message.Attach="[Event SelectionChanged] = [Action SetEnablingMode()]"/>
+                                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}" IsIndeterminate="True"
+                                                             VerticalAlignment="Stretch" Margin="5 5 10 5">
+                                        <ProgressBar.Visibility>
+                                            <MultiBinding Converter="{StaticResource MultiConverterVisibilityAllEqual}">
+                                                <Binding Path="Agv.AgvRequest.SelectedEnabling_Mode"/>
+                                                <Binding Path="Agv.AgvRequest.Enabling_Mode"/>
+                                            </MultiBinding>
+                                        </ProgressBar.Visibility>
+                                    </ProgressBar>
+                                    <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Margin="0 5 10 5" 
+                                                        IsEnabled="{Binding Agv.AgvRequest.Enabling_Mode, Converter={StaticResource EnumToBoolConverter},  ConverterParameter=Semiautomatic}"
+                                                        Name="LoadUnload" Content="LOAD/UNLOAD"/>
+                                    <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" 
+                                                        IsEnabled="{Binding Agv.AgvRequest.Enabling_Mode, Converter={StaticResource EnumToBoolConverter},  ConverterParameter=Semiautomatic}"
+                                                        cal:Message.Attach="SetPartData" Content="SET PART DATA" />
+                                    <TextBox Margin="10 0 0 0" Padding="0" Width="100" VerticalAlignment="Center" AcceptsReturn="True" 
+                                                         Text="{Binding Agv.Part_data_To_send}"/>
+                                </DockPanel>
+                                <CheckBox Name="cbModifica" Content="Modifica" IsChecked="{Binding Agv.AgvRequest.ModifyAllowed_Enabling_Mode}" Margin="10 0 0 0"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                                <TextBlock Text="{resx:Translate 'Transponder', Suffix=':', Uppercase=True}" Margin="0 0 5 0" Padding="0"  VerticalAlignment="Center" />
+                                <TextBox  Margin="5" Width="50" VerticalAlignment="Center" Text="{Binding Agv.SimulatedTransponder}" />
+                                <TextBlock Text="{resx:Translate 'Station', Suffix=':', Uppercase=True}" Margin="0 0 5 0" Padding="0"  VerticalAlignment="Center" />
+                                <TextBox  Margin="5" Width="50" VerticalAlignment="Center" Text="{Binding Agv.SimulatedStation}"/>
+                                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                                            Margin="5 5 20 5"
+                                            Name="Simula" Content="SIMULA">
+                                    <Button.IsEnabled>
+                                        <MultiBinding Converter="{StaticResource MultiFlagToBooleanConverter}">
+                                            <Binding Path="Agv.Agv_State"/>
+                                            <Binding Source="{x:Static agilogsew:SEW_State_Flags.Simulation}" Mode="OneWay"/>
+                                        </MultiBinding>
+                                    </Button.IsEnabled>
+                                </Button>
+                                <StackPanel.Visibility>
+                                    <MultiBinding Converter="{StaticResource MultiFlagToVisibilityConverter}">
+                                        <Binding Path="Agv.Agv_State"/>
+                                        <Binding Source="{x:Static agilogsew:SEW_State_Flags.Simulation}" Mode="OneWay"/>
+                                    </MultiBinding>
+                                </StackPanel.Visibility>
+                            </StackPanel>
+                        </DockPanel>
+                    </StackPanel>
+                </DockPanel>
+            </StackPanel>
+        </StackPanel>
+    </GroupBox>
+</UserControl>

@@ -1,0 +1,485 @@
+﻿<UserControl x:Class="AgvMgr.Views.AgvLayoutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AgvMgr.Views"
+             xmlns:viewModel="clr-namespace:AgvMgr.ViewModels"
+             xmlns:converters="clr-namespace:mSwDllWPFUtils.Converters;assembly=mSwDllWPFUtils" 
+             xmlns:agvconverters="clr-namespace:AgvMgr.Converters"
+             xmlns:WPFUtils="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:resx="clr-namespace:mSwDllWPFUtils;assembly=mSwDllWPFUtils"
+             xmlns:agilog="clr-namespace:mSwAgilogDll;assembly=mSwAgilogDll"
+             xmlns:sew="clr-namespace:mSwAgilogDll.SEW;assembly=mSwAgilogDll"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             xmlns:h="http://helix-toolkit.org/wpf"
+             d:DesignHeight="1000" d:DesignWidth="1000" 
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{StaticResource MaterialDesignFont}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <agvconverters:MultiFlagToVisibilityConverter x:Key="MultiFlagToVisibilityConverter" />
+        <agvconverters:MultiConverterOneTrue x:Key="MultiConverterOneTrue"/>
+        <agvconverters:MultiConverterAllFalse x:Key="MultiConverterAllFalse"/>
+        <converters:InvertBoolConverter x:Key="InvertBoolConverter"/>
+        <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignAccentCheckBox}">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+        </Style>
+        <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Width" Value="20"/>
+        </Style>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetNames"
+                            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="sew:Agv_Station_Type"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White">
+            <ContentControl Content="{Binding View3D}" Grid.Column="0" Grid.Row="0" 
+                        VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        </ScrollViewer>
+        <Expander Grid.Column="1" Grid.Row="0" ExpandDirection="Right" materialDesign:ExpanderAssist.VerticalHeaderPadding="0"
+                  Header="{resx:Translate Options, Uppercase=True}" >
+            <Expander.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Margin="0 0 0 0" HorizontalAlignment="Center"
+                               Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                               Text="{Binding}">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </DataTemplate>
+            </Expander.HeaderTemplate>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Width="320">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Expander Grid.Row="0" Margin="0 5 5 0"
+                              Header="{resx:Translate Options, Uppercase=True}" materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"           
+                              Background="{StaticResource SecondaryHueMidBrush}" Foreground="{StaticResource SecondaryHueMidForegroundBrush}">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="8 6" VerticalAlignment="Center" 
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           Text="{Binding}" />
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <StackPanel Orientation="Vertical" Background="{StaticResource MaterialDesignCardBackground}" 
+                                    TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                            <StackPanel.Resources>
+                                <Style TargetType="CheckBox" BasedOn="{StaticResource MaterialDesignAccentCheckBox}">
+                                    <Setter Property="Margin" Value="4 2"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <CheckBox Content="{resx:Translate 'Show Transponders', Uppercase=True}" IsChecked="{Binding ShowTransponders}" />
+                            <CheckBox Content="{resx:Translate 'Show Background', Uppercase=True}" IsChecked="{Binding ShowBackground}"/>
+                            <CheckBox Content="{resx:Translate 'Show Conveyor', Uppercase=True}" IsChecked="{Binding ShowConveyor}"/>
+                            <CheckBox Content="{resx:Translate 'Show Agvs Path', Uppercase=True}" IsChecked="{Binding ShowAgvsPath}"/>
+                        </StackPanel>
+                    </Expander>
+                    <Expander Grid.Row="1" Margin="0 5 5 0" Visibility="{Binding SimulationEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                              Header="{resx:Translate Simulation, Uppercase=True}"
+                              materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                              Background="{StaticResource SecondaryHueMidBrush}" Foreground="{StaticResource SecondaryHueMidForegroundBrush}">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="8 6" VerticalAlignment="Center" 
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           Text="{Binding}" />
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <!-- Griglia con 2 righe 
+                            Elenco Job
+                            Barra pulsanti
+                    -->
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Background="{StaticResource MaterialDesignCardBackground}" Grid.Row="0" >
+                                <!-- Griglia coi job -->
+                                <DataGrid Name="AgvStations" VerticalAlignment="Stretch" SelectionUnit="FullRow" SelectionMode="Single" 
+                                          MinHeight="150" Background="{StaticResource MaterialDesignCardBackground}"
+                                          VerticalScrollBarVisibility="Auto"
+                                          AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                                          materialDesign:DataGridAssist.CellPadding="5" 
+                                          materialDesign:DataGridAssist.ColumnHeaderPadding="4">
+                                    <!-- Colonne Job -->
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="{resx:Translate 'Code', Uppercase=True}" 
+                                                        Binding="{Binding MOD_Code}"
+                                                        IsReadOnly="True" Width="*" MinWidth="70"/>
+                                        <DataGridTextColumn Header="{resx:Translate 'Udc', Uppercase=True}" 
+                                                        Binding="{Binding Udc}"
+                                                        IsReadOnly="True" Width="*" MinWidth="100"/>
+                                        <DataGridTextColumn Header="{resx:Translate 'Queue', Uppercase=True}" 
+                                                        Binding="{Binding PalletInCoda}"
+                                                        IsReadOnly="True" Width="*" MinWidth="50"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Border>
+                            <!-- Barra coi pulsanti -->
+                            <materialDesign:ColorZone Mode="PrimaryLight" Grid.Row="1">
+                                <materialDesign:ColorZone.Resources>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="Margin" Value="4 0"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </materialDesign:ColorZone.Resources>
+                                <!-- Parte sinistra barra pulsanti -->
+                                <UniformGrid Rows="1" Columns="4" HorizontalAlignment="Left"
+                                                 IsEnabled="{Binding SimulationEnabled}">
+                                    <Button Name="StartSimulation" IsEnabled="{Binding SimulationOff}"
+                                            ToolTip="{resx:Translate Start}">
+                                        <materialDesign:PackIcon Kind="Play" />
+                                    </Button>
+                                    <Button Name="StopSimulation" IsEnabled="{Binding SimulationOn}"
+                                            ToolTip="{resx:Translate Stop}">
+                                        <materialDesign:PackIcon Kind="Stop" />
+                                    </Button>
+                                    <Button Name="ResetSimulation" IsEnabled="{Binding SimulationOff}"
+                                            ToolTip="{resx:Translate Reset}">
+                                        <materialDesign:PackIcon Kind="WindowClose" />
+                                    </Button>
+                                </UniformGrid>
+                                <!-- Parte destra barra pulsanti -->
+                            </materialDesign:ColorZone>
+                        </Grid>
+                    </Expander>
+                    <Expander Grid.Row="2" Margin="0 5 5 0"
+                              Header="{resx:Translate Handling Calls, Uppercase=True}"
+                              materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                              Background="{StaticResource SecondaryHueMidBrush}" Foreground="{StaticResource SecondaryHueMidForegroundBrush}"
+                              Visibility="Collapsed">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="8 6" VerticalAlignment="Center" 
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           Text="{Binding}" />
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <Border Background="{StaticResource MaterialDesignCardBackground}">
+                            <!-- Griglia coi job -->
+                            <DataGrid Name="Stations" ItemsSource="{Binding AgvStations}"  VerticalAlignment="Stretch" SelectionUnit="FullRow" SelectionMode="Single" 
+                                        MinHeight="150" Background="{StaticResource MaterialDesignCardBackground}"
+                                    VerticalScrollBarVisibility="Auto"
+                                    AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False"
+                                    materialDesign:DataGridAssist.CellPadding="5" 
+                                    materialDesign:DataGridAssist.ColumnHeaderPadding="4">
+                                <!-- Colonne Job -->
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="{resx:Translate 'Code', Uppercase=True}" 
+                                                        Binding="{Binding MOD_Code}"
+                                                        IsReadOnly="True" Width="55"/>
+                                    <DataGridTextColumn Header="{resx:Translate 'Udc', Uppercase=True}" 
+                                                        Binding="{Binding Udc}"
+                                                        IsReadOnly="True" Width="160"/>
+                                    <DataGridTemplateColumn Header="{resx:Translate 'Status', Uppercase=True}" 
+                                                        IsReadOnly="True" Width="*" MinWidth="50">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <materialDesign:PackIcon Kind="Export" Width="18" Height="18" IsHitTestVisible="False" Margin="0" Padding="0">
+                                                        <materialDesign:PackIcon.Visibility>
+                                                            <MultiBinding Converter="{StaticResource MultiFlagToVisibilityConverter}">
+                                                                <Binding Path="Status"/>
+                                                                <Binding Source="{x:Static sew:Agv_Station_Status.Expulsion}" Mode="OneWay"/>
+                                                            </MultiBinding>
+                                                        </materialDesign:PackIcon.Visibility>
+                                                    </materialDesign:PackIcon>
+                                                    <materialDesign:PackIcon Kind="Import" Width="18" Height="18" IsHitTestVisible="False" Margin="0" Padding="0">
+                                                        <materialDesign:PackIcon.Visibility>
+                                                            <MultiBinding Converter="{StaticResource MultiFlagToVisibilityConverter}">
+                                                                <Binding Path="Status"/>
+                                                                <Binding Source="{x:Static sew:Agv_Station_Status.Request}" Mode="OneWay"/>
+                                                            </MultiBinding>
+                                                        </materialDesign:PackIcon.Visibility>
+                                                    </materialDesign:PackIcon>
+                                                    <materialDesign:PackIcon Kind="AlertOutline" Width="18" Height="18" IsHitTestVisible="False" Margin="0" Padding="0">
+                                                        <materialDesign:PackIcon.Visibility>
+                                                            <MultiBinding Converter="{StaticResource MultiFlagToVisibilityConverter}">
+                                                                <Binding Path="Status"/>
+                                                                <Binding Source="{x:Static sew:Agv_Station_Status.Alarm}" Mode="OneWay"/>
+                                                            </MultiBinding>
+                                                        </materialDesign:PackIcon.Visibility>
+                                                    </materialDesign:PackIcon>
+                                                    <materialDesign:PackIcon Kind="Play" Width="18" Height="18" IsHitTestVisible="False" Margin="0" Padding="0">
+                                                        <materialDesign:PackIcon.Visibility>
+                                                            <MultiBinding Converter="{StaticResource MultiFlagToVisibilityConverter}">
+                                                                <Binding Path="Status"/>
+                                                                <Binding Source="{x:Static sew:Agv_Station_Status.Auto}" Mode="OneWay"/>
+                                                            </MultiBinding>
+                                                        </materialDesign:PackIcon.Visibility>
+                                                    </materialDesign:PackIcon>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </Expander>
+                    <Expander Grid.Row="3" Margin="0 5 5 0"
+                              Header="{resx:Translate 'Handling Configuration', Uppercase=True}" Padding="0"
+                              materialDesign:ExpanderAssist.HorizontalHeaderPadding="0"
+                              Background="{StaticResource SecondaryHueMidBrush}" Foreground="{StaticResource SecondaryHueMidForegroundBrush}">
+                        <Expander.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Margin="8 6" VerticalAlignment="Center" 
+                                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"
+                                           Text="{Binding}" />
+                            </DataTemplate>
+                        </Expander.HeaderTemplate>
+                        <DockPanel>
+                            <DockPanel.Resources>
+                                <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="0 4"/>
+                                </Style>
+                                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="0 4"/>
+                                </Style>
+                                <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Margin" Value="0 4"/>
+                                </Style>
+                            </DockPanel.Resources>
+                            <DockPanel DockPanel.Dock="Top" Background="{StaticResource MaterialDesignCardBackground}">
+                                <DockPanel.IsEnabled>
+                                    <MultiBinding Converter="{StaticResource MultiConverterOneTrue}">
+                                        <Binding Path="StationInsert"/>
+                                        <Binding Path="StationEdit"/>
+                                    </MultiBinding>
+                                </DockPanel.IsEnabled>
+                                <Grid DockPanel.Dock="Top" Margin="10 0" TextElement.Foreground="{DynamicResource MaterialDesignBody}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Station code" Grid.Row="0" Grid.Column="0" />
+                                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedStation.MOD_Code}" IsEnabled="{Binding StationInsert}"/>
+                                </Grid>
+                                <Grid Margin="10 0" DockPanel.Dock="Bottom"
+                                TextElement.Foreground="{DynamicResource MaterialDesignBody}" DataContext="{Binding SelectedStation}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="PartData" Grid.Row="0" Grid.Column="0" />
+                                    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding MOD_Code_Num}"/>
+
+                                    <TextBlock Text="Type" Grid.Row="1" Grid.Column="0" />
+                                    <ComboBox Grid.Row="1" Grid.Column="1" IsEditable="False"
+                                              SelectedItem="{Binding MOD_PLN_Code}" ItemsSource="{Binding Source={StaticResource dataFromEnum}}"/>
+
+                                    <TextBlock Text="X" Grid.Row="2" Grid.Column="0" />
+                                    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding MOD_QuotaX}"/>
+
+                                    <TextBlock Text="Y" Grid.Row="3" Grid.Column="0" />
+                                    <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding MOD_QuotaY}"/>
+
+                                    <TextBlock Text="Angle" Grid.Row="4" Grid.Column="0" />
+                                    <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding MOD_Angle}"/>
+                                </Grid>
+                            </DockPanel>
+                            <materialDesign:ColorZone Mode="PrimaryLight" DockPanel.Dock="Bottom" HorizontalAlignment="Stretch">
+                                <materialDesign:ColorZone.Resources>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MaterialDesignToolForegroundButton}">
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="Margin" Value="4 0"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </materialDesign:ColorZone.Resources>
+                                <DockPanel LastChildFill="False">
+                                    <!-- Parte sinistra barra pulsanti -->
+                                    <UniformGrid Columns="4"  DockPanel.Dock="Left">
+                                        <Button Name="AddStation"
+                                            ToolTip="{resx:Translate Add}">
+                                            <Button.IsEnabled>
+                                                <MultiBinding Converter="{StaticResource MultiConverterAllFalse}">
+                                                    <Binding Path="StationInsert"/>
+                                                    <Binding Path="StationEdit"/>
+                                                </MultiBinding>
+                                            </Button.IsEnabled>
+                                            <materialDesign:PackIcon Kind="Plus" />
+                                        </Button>
+                                        <Button Name="EditStation"
+                                            ToolTip="{resx:Translate Edit}">
+                                            <Button.IsEnabled>
+                                                <MultiBinding Converter="{StaticResource MultiConverterAllFalse}">
+                                                    <Binding Path="StationInsert"/>
+                                                    <Binding Path="StationEdit"/>
+                                                </MultiBinding>
+                                            </Button.IsEnabled>
+                                            <materialDesign:PackIcon Kind="Edit" />
+                                        </Button>
+                                        <Button Name="DeleteStation"
+                                            ToolTip="{resx:Translate Delete}">
+                                            <Button.IsEnabled>
+                                                <MultiBinding Converter="{StaticResource MultiConverterAllFalse}">
+                                                    <Binding Path="StationInsert"/>
+                                                    <Binding Path="StationEdit"/>
+                                                </MultiBinding>
+                                            </Button.IsEnabled>
+                                            <materialDesign:PackIcon Kind="TrashCan" />
+                                        </Button>
+                                        <Button Name="SetTrack"
+                                            ToolTip="{resx:Translate Track}">
+                                            <Button.IsEnabled>
+                                                <MultiBinding Converter="{StaticResource MultiConverterAllFalse}">
+                                                    <Binding Path="StationInsert"/>
+                                                    <Binding Path="StationEdit"/>
+                                                </MultiBinding>
+                                            </Button.IsEnabled>
+                                            <materialDesign:PackIcon Kind="PackageVariantClosed" />
+                                        </Button>
+                                    </UniformGrid>
+                                    <!-- Parte destra barra pulsanti -->
+                                    <UniformGrid Columns="2" DockPanel.Dock="Right">
+                                        <Button Name="SaveStation"
+                                            ToolTip="{resx:Translate Save}">
+                                            <Button.IsEnabled>
+                                                <MultiBinding Converter="{StaticResource MultiConverterOneTrue}">
+                                                    <Binding Path="StationInsert"/>
+                                                    <Binding Path="StationEdit"/>
+                                                </MultiBinding>
+                                            </Button.IsEnabled>
+                                            <materialDesign:PackIcon Kind="Floppy" />
+                                        </Button>
+                                        <Button Name="CancelChange"
+                                            ToolTip="{resx:Translate Cancel}">
+                                            <Button.IsEnabled>
+                                                <MultiBinding Converter="{StaticResource MultiConverterOneTrue}">
+                                                    <Binding Path="StationInsert"/>
+                                                    <Binding Path="StationEdit"/>
+                                                </MultiBinding>
+                                            </Button.IsEnabled>
+                                            <materialDesign:PackIcon Kind="UndoVariant" />
+                                        </Button>
+                                    </UniformGrid>
+                                </DockPanel>
+                            </materialDesign:ColorZone>
+                        </DockPanel>
+                    </Expander>
+
+                    <StackPanel Grid.Row="5" Orientation="Vertical">
+                        <TextBlock Text="{Binding CameraCordinate}" FontSize="14"></TextBlock>
+                        <Button Name="ZoomReset" Content="{resx:Translate 'Reset Zoom', Uppercase=True}" Margin="5"/>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+        </Expander>
+        <Expander IsExpanded="{Binding ExpandDetails}" x:Name="ExpDetails" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" ExpandDirection="Down" materialDesign:ExpanderAssist.HorizontalHeaderPadding="3">
+            <Expander.Header>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           Text="{resx:Translate 'Agv Details', Uppercase=True}"
+                           Style="{StaticResource MaterialDesignSubtitle2TextBlock}"/>
+            </Expander.Header>
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="12 2">
+                    <Button Name="PrevAgv" Margin="2" Padding="0" Width="24" Height="24"
+                            Style="{StaticResource MaterialDesignFlatAccentButton}">
+                        <materialDesign:PackIcon Kind="ArrowLeftBoldCircle" Width="24" Height="24"/>
+                    </Button>
+                    <Button Name="NextAgv" Margin="2" Padding="0" Width="24" Height="24"
+                            Style="{StaticResource MaterialDesignFlatAccentButton}">
+                        <materialDesign:PackIcon Kind="ArrowRightBoldCircle" Width="24" Height="24"/>
+                    </Button>
+                </StackPanel>
+                <ContentControl DataContext="{Binding SelectedAgvModel}" Margin="12 4" cal:View.Model="{Binding}">
+                </ContentControl>
+            </DockPanel>
+        </Expander>
+        <StackPanel HorizontalAlignment="Right" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Margin="0 4 6 0"
+                        Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
+                    <Setter Property="Margin" Value="5 2"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button ToolTip="{resx:Translate 'Reload'}"
+                    Name="ReloadTrackDataAllAgv">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{resx:Translate 'Reload', Uppercase=True}" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="Reload" />
+                </StackPanel>
+            </Button>
+            <Button Name="StartAllAgv"
+                    ToolTip="{resx:Translate 'Start'}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{resx:Translate 'Start', Uppercase=True}" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center"/>
+                    <materialDesign:PackIcon Kind="Play" />
+                </StackPanel>
+            </Button>
+            <Button Name="StopAllAgv"
+                    ToolTip="{resx:Translate 'Stop'}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{resx:Translate 'Stop', Uppercase=True}" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" />
+                    <materialDesign:PackIcon Kind="Stop" />
+                </StackPanel>
+            </Button>
+            <Button Name="ResetAllAgv"
+                    ToolTip="{resx:Translate 'Reset'}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{resx:Translate 'Reset', Uppercase=True}" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" />
+                    <materialDesign:PackIcon Kind="RedoVariant" />
+                </StackPanel>
+            </Button>
+            <Button Name="SimulaAll" Content="{resx:Translate 'Simulate all', Uppercase=True}" ToolTip="{resx:Translate 'Simulate all'}"
+                    HorizontalAlignment="Right" DockPanel.Dock="Bottom"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

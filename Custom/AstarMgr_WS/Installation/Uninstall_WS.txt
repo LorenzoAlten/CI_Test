@@ -1,0 +1,3 @@
+#Run PowerShell as Administrator and execute following commands:
+
+sc.exe delete "AstarMgr_WS"
