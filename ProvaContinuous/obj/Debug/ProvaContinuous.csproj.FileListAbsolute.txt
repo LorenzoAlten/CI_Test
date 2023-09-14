@@ -1,0 +1,16 @@
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\bin\Debug\ProvaContinuous.exe.config
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\bin\Debug\ProvaContinuous.exe
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\bin\Debug\ProvaContinuous.pdb
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous.csproj.AssemblyReference.cache
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous.csproj.SuggestedBindingRedirects.cache
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\MainWindow.g.cs
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\App.g.cs
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous_MarkupCompile.cache
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous_MarkupCompile.lref
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\MainWindow.baml
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous.g.resources
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous.Properties.Resources.resources
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous.csproj.GenerateResource.cache
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous.csproj.CoreCompileInputs.cache
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous.exe
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\ProvaContinuous\obj\Debug\ProvaContinuous.pdb
