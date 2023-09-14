@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LtnUCjBUEVkk/7MKgc/WNdmLzDMuWoDlggGjegppxCDB63r7O20leDFvDs1gNZBg+ZD9ebUpSBfh1ml+Q5V7Cg==",
+  "dgSpecHash": "d977TC8PfeVoqcMRBpXJFmxNM7emj0tqRzCDskHeGEDidiK2MVWPK4iCh2hD/Y4yLCcF6h7mHzrGhTqtmHg8XQ==",
   "success": true,
-  "projectFilePath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj",
+  "projectFilePath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\UTSPC-08\\.nuget\\packages\\microsoft.aspnetcore.hosting\\2.2.7\\microsoft.aspnetcore.hosting.2.2.7.nupkg.sha512",
     "C:\\Users\\UTSPC-08\\.nuget\\packages\\microsoft.aspnetcore.hosting.abstractions\\2.2.0\\microsoft.aspnetcore.hosting.abstractions.2.2.0.nupkg.sha512",

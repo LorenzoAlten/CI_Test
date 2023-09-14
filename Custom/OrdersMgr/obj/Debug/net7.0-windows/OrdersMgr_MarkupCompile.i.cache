@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Errevi\Sodico\Agilog\App\Src\Custom\OrdersMgr\obj\Debug\net7.0-windows\
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\OrdersMgr\obj\Debug\net7.0-windows\
 OrdersMgr
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-D:\Errevi\Sodico\Agilog\App\Src\Custom\OrdersMgr\App.xaml
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\OrdersMgr\App.xaml
 9260450195
 
 25-1981842151
-399-1137806359
+2451331628861
 Views\AppView.xaml;Views\BookedUDCsView.xaml;Views\FilterOrderView.xaml;Views\InsertOrderDetailView.xaml;Views\InsertOrderView.xaml;Views\OrderDetErrorsView.xaml;Views\OrderPrepareView.xaml;Views\OrdersView.xaml;Views\OrderTypeView.xaml;
 
-False
+True
 

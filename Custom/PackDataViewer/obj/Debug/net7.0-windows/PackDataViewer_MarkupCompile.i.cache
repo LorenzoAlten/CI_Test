@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Errevi\Sodico\Agilog\App\Src\Custom\PackDataViewer\obj\Debug\net7.0-windows\
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\PackDataViewer\obj\Debug\net7.0-windows\
 PackDataViewer
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-D:\Errevi\Sodico\Agilog\App\Src\Custom\PackDataViewer\App.xaml
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\PackDataViewer\App.xaml
 3-134189906
 
 101190684264
-373248201365
+372-891850717
 Views\AppView.xaml;Views\PackDataView.xaml;Views\SelectElementView.xaml;
 
-True
+False
 

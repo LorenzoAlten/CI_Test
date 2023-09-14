@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2hGv8FwAyWhN3gIIco1lShc1LFUQaR0OsJssPZEZZydHNy3y4/Z2Kz4xvMLpIuc0/iUpIxNRt1t5C+oHsBnK3A==",
+  "dgSpecHash": "EuVkj/G9BwEj57f8xQa/mmOGC4yqyj/1/JXi61fqxfSGjrniDfRSHS899Z2l69laCppySFZTvMbxmZM1DtUfAg==",
   "success": true,
-  "projectFilePath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\WasteMgr\\WasteMgr.csproj",
+  "projectFilePath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\WasteMgr\\WasteMgr.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\UTSPC-08\\.nuget\\packages\\caliburn.micro\\4.0.212\\caliburn.micro.4.0.212.nupkg.sha512",
     "C:\\Users\\UTSPC-08\\.nuget\\packages\\caliburn.micro.core\\4.0.212\\caliburn.micro.core.4.0.212.nupkg.sha512",

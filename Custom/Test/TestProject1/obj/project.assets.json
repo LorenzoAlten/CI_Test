@@ -6117,11 +6117,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\Test\\TestProject1\\TestProject1.csproj",
+      "projectUniqueName": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\Test\\TestProject1\\TestProject1.csproj",
       "projectName": "TestProject1",
-      "projectPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\Test\\TestProject1\\TestProject1.csproj",
+      "projectPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\Test\\TestProject1\\TestProject1.csproj",
       "packagesPath": "C:\\Users\\UTSPC-08\\.nuget\\packages\\",
-      "outputPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\Test\\TestProject1\\obj\\",
+      "outputPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\Test\\TestProject1\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\UTSPC-08\\AppData\\Roaming\\NuGet\\NuGet.Config",

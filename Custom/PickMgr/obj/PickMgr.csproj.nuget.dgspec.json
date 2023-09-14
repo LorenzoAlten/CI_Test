@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PickMgr\\PickMgr.csproj": {}
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PickMgr\\PickMgr.csproj": {}
   },
   "projects": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PickMgr\\PickMgr.csproj": {
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PickMgr\\PickMgr.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PickMgr\\PickMgr.csproj",
+        "projectUniqueName": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PickMgr\\PickMgr.csproj",
         "projectName": "PickMgr",
-        "projectPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PickMgr\\PickMgr.csproj",
+        "projectPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PickMgr\\PickMgr.csproj",
         "packagesPath": "C:\\Users\\UTSPC-08\\.nuget\\packages\\",
-        "outputPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PickMgr\\obj\\",
+        "outputPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PickMgr\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\UTSPC-08\\AppData\\Roaming\\NuGet\\NuGet.Config",

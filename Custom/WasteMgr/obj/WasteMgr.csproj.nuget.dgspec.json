@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\WasteMgr\\WasteMgr.csproj": {}
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\WasteMgr\\WasteMgr.csproj": {}
   },
   "projects": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\WasteMgr\\WasteMgr.csproj": {
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\WasteMgr\\WasteMgr.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\WasteMgr\\WasteMgr.csproj",
+        "projectUniqueName": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\WasteMgr\\WasteMgr.csproj",
         "projectName": "WasteMgr",
-        "projectPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\WasteMgr\\WasteMgr.csproj",
+        "projectPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\WasteMgr\\WasteMgr.csproj",
         "packagesPath": "C:\\Users\\UTSPC-08\\.nuget\\packages\\",
-        "outputPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\WasteMgr\\obj\\",
+        "outputPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\WasteMgr\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\UTSPC-08\\AppData\\Roaming\\NuGet\\NuGet.Config",

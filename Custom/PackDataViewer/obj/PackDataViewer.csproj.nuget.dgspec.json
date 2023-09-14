@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PackDataViewer\\PackDataViewer.csproj": {}
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PackDataViewer\\PackDataViewer.csproj": {}
   },
   "projects": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PackDataViewer\\PackDataViewer.csproj": {
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PackDataViewer\\PackDataViewer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PackDataViewer\\PackDataViewer.csproj",
+        "projectUniqueName": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PackDataViewer\\PackDataViewer.csproj",
         "projectName": "PackDataViewer",
-        "projectPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PackDataViewer\\PackDataViewer.csproj",
+        "projectPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PackDataViewer\\PackDataViewer.csproj",
         "packagesPath": "C:\\Users\\UTSPC-08\\.nuget\\packages\\",
-        "outputPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PackDataViewer\\obj\\",
+        "outputPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PackDataViewer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\UTSPC-08\\AppData\\Roaming\\NuGet\\NuGet.Config",

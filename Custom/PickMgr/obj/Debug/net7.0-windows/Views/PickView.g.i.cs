@@ -36,6 +36,7 @@ using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Shell;
+using mSwAgilogDll;
 using mSwDllWPFUtils;
 using mSwDllWPFUtils.Converters;
 

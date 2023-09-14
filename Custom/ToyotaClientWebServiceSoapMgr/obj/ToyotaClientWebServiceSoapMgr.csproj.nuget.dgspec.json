@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\ToyotaClientWebServiceSoapMgr\\ToyotaClientWebServiceSoapMgr.csproj": {}
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\ToyotaClientWebServiceSoapMgr\\ToyotaClientWebServiceSoapMgr.csproj": {}
   },
   "projects": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\ToyotaClientWebServiceSoapMgr\\ToyotaClientWebServiceSoapMgr.csproj": {
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\ToyotaClientWebServiceSoapMgr\\ToyotaClientWebServiceSoapMgr.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\ToyotaClientWebServiceSoapMgr\\ToyotaClientWebServiceSoapMgr.csproj",
+        "projectUniqueName": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\ToyotaClientWebServiceSoapMgr\\ToyotaClientWebServiceSoapMgr.csproj",
         "projectName": "ToyotaClientWebServiceSoapMgr",
-        "projectPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\ToyotaClientWebServiceSoapMgr\\ToyotaClientWebServiceSoapMgr.csproj",
+        "projectPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\ToyotaClientWebServiceSoapMgr\\ToyotaClientWebServiceSoapMgr.csproj",
         "packagesPath": "C:\\Users\\UTSPC-08\\.nuget\\packages\\",
-        "outputPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\ToyotaClientWebServiceSoapMgr\\obj\\",
+        "outputPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\ToyotaClientWebServiceSoapMgr\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\UTSPC-08\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\Errevi\Sodico\Agilog\App\Src\Custom\ToyotaClientWebServiceSoapMgr\obj\Debug\net7.0-windows\
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\ToyotaClientWebServiceSoapMgr\obj\Debug\net7.0-windows\
 ToyotaClientWebServiceSoapMgr
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-D:\Errevi\Sodico\Agilog\App\Src\Custom\ToyotaClientWebServiceSoapMgr\App.xaml
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\ToyotaClientWebServiceSoapMgr\App.xaml
 2207424518
 
 14159428689
-2751312355662
+275-1834784204
 Views\AppView.xaml;Views\ToyotaClientServiceSoapView.xaml;
 
 False

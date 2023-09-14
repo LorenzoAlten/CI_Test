@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WRU67gOHkUfYT+KCuYbW7cnOuV57cK/yeovmmtX6QIlB1vUaD/W4V8vfwq3zkedue9jPRC3i2u3tBi3SAkgLwQ==",
+  "dgSpecHash": "9E7d4aIoO2eYw/Qc3PleXvKj2ZHFbafEQTzfUN276LUmn83X+NuH++Ob7S5egKJunvx6ocK1HzwxCdYRzjZ7CQ==",
   "success": true,
-  "projectFilePath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PackDataViewer\\PackDataViewer.csproj",
+  "projectFilePath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PackDataViewer\\PackDataViewer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\UTSPC-08\\.nuget\\packages\\caliburn.micro\\4.0.212\\caliburn.micro.4.0.212.nupkg.sha512",
     "C:\\Users\\UTSPC-08\\.nuget\\packages\\caliburn.micro.core\\4.0.212\\caliburn.micro.core.4.0.212.nupkg.sha512",

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Errevi\Sodico\Agilog\App\Src\Custom\WhsViewer\obj\Debug\net7.0-windows\
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\WhsViewer\obj\Debug\net7.0-windows\
 WhsViewer
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-D:\Errevi\Sodico\Agilog\App\Src\Custom\WhsViewer\App.xaml
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\WhsViewer\App.xaml
 13-1389949889
 4-1768435547
 321963455443
-406-1921017546
+2311433628723
 UserControls\CellControl.xaml;UserControls\LocationControl.xaml;Views\AisleView.xaml;Views\AppView.xaml;Views\BayView.xaml;Views\FilterView.xaml;Views\FloorView.xaml;Views\FrontRackView.xaml;Views\LevelView.xaml;Views\RunImmediateView.xaml;Views\SelectDestinationView.xaml;Views\WarehouseCellView.xaml;Views\WhsCellsLocationView.xaml;
 
-False
+True
 

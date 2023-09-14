@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Errevi\Sodico\Agilog\App\Src\Custom\TrafficMgr\obj\Debug\net7.0-windows\
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\TrafficMgr\obj\Debug\net7.0-windows\
 TrafficMgr
 none
 false
 TRACE;DEBUG;NET;NET7_0;NETCOREAPP
-D:\Errevi\Sodico\Agilog\App\Src\Custom\TrafficMgr\App.xaml
+C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\TrafficMgr\App.xaml
 4-1052416436
 
 13828859721
-4041289628982
+2571099645097
 Views\AppView.xaml;Views\LogsView.xaml;Views\MainPageView.xaml;Views\TelegramsView.xaml;
 
-False
+True
 

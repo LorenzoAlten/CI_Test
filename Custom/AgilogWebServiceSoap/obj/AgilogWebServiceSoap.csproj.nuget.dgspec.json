@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj": {}
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj": {}
   },
   "projects": {
-    "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj": {
+    "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj",
+        "projectUniqueName": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj",
         "projectName": "AgilogWebServiceSoap",
-        "projectPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj",
+        "projectPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\AgilogWebServiceSoap\\AgilogWebServiceSoap.csproj",
         "packagesPath": "C:\\Users\\UTSPC-08\\.nuget\\packages\\",
-        "outputPath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\AgilogWebServiceSoap\\obj\\",
+        "outputPath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\AgilogWebServiceSoap\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\UTSPC-08\\AppData\\Roaming\\NuGet\\NuGet.Config",

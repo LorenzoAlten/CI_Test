@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JFeg37GafBIYuFI5jTa647XxBgkOKQtf1es78imUGL4J7ABwjUP38yxquu38c7q3FkeA+Gp8ZJIbxEeY1hivMg==",
+  "dgSpecHash": "vB4Gg1n6Sh2N53gM94UAa9y7hpTodbDirNiF2HAmJIILyE7DXFEl4yz1Lj/3ry5VtB5C8WV0h9tgFBxoKYsJAQ==",
   "success": true,
-  "projectFilePath": "D:\\Errevi\\Sodico\\Agilog\\App\\Src\\Custom\\PickMgr\\PickMgr.csproj",
+  "projectFilePath": "C:\\Users\\UTSPC-08\\Documents\\GitHub\\CI_Test\\Custom\\PickMgr\\PickMgr.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\UTSPC-08\\.nuget\\packages\\caliburn.micro\\4.0.212\\caliburn.micro.4.0.212.nupkg.sha512",
     "C:\\Users\\UTSPC-08\\.nuget\\packages\\caliburn.micro.core\\4.0.212\\caliburn.micro.core.4.0.212.nupkg.sha512",

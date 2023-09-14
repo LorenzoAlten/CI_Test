@@ -9,9 +9,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using AgvMgr.Converters;
 using AgvMgr.ViewModels;
 using AgvMgr.Views;
 using Caliburn.Micro;
+using HelixToolkit.Wpf;
 using MaterialDesignThemes.Wpf;
 using MaterialDesignThemes.Wpf.Converters;
 using MaterialDesignThemes.Wpf.Transitions;
@@ -24,7 +26,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Forms.Integration;
 using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Markup;
@@ -38,7 +39,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Shell;
 using mSwAgilogDll;
+using mSwAgilogDll.SEW;
 using mSwDllWPFUtils;
+using mSwDllWPFUtils.Converters;
 
 
 namespace AgvMgr.Views {
