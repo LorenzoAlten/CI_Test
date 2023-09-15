@@ -17,8 +17,8 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Install dependencies
-        run: dotnet restore <C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom>
+        run: dotnet restore <C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\Agilog.sln>
       - name: Build
-        run: dotnet build --configuration Release --no-restore <C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom>
+        run: dotnet build --configuration Release --no-restore <C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\Agilog.sln>
       - name: Test
         run: dotnet test --no-restore --verbosity normal <C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom>
