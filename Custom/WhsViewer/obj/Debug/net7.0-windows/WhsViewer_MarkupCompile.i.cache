@@ -16,5 +16,5 @@ C:\Users\UTSPC-08\Documents\GitHub\CI_Test\Custom\WhsViewer\App.xaml
 2311433628723
 UserControls\CellControl.xaml;UserControls\LocationControl.xaml;Views\AisleView.xaml;Views\AppView.xaml;Views\BayView.xaml;Views\FilterView.xaml;Views\FloorView.xaml;Views\FrontRackView.xaml;Views\LevelView.xaml;Views\RunImmediateView.xaml;Views\SelectDestinationView.xaml;Views\WarehouseCellView.xaml;Views\WhsCellsLocationView.xaml;
 
-True
+False
 
